@@ -10,6 +10,8 @@ setup/
 
 App/
 
+corsica.sh
+corsica.py
 templates/corsica.html
 
 qrvey.pyc
