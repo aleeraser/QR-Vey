@@ -15,8 +15,8 @@ Pre-requisites are:
   - On Mac (using [homebrew](https://brew.sh "homebrew's homepage")):
     - `$ brew install mysql`
     - use brew services to start/stop mysql
-      `$ brew tap homebrew/services`
-      `$ brew services start mysql`
+      - `$ brew tap homebrew/services`
+      - `$ brew services start mysql`
   - On Linux, using apt:
     - `$ sudo apt-get install mysql-server mysql-client libmysqlclient-dev`
 
