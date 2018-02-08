@@ -1,0 +1,17 @@
+Answer,Email,First name,Last name,Age,Sex,Answer time,Answer device,Answer browser
+prova 1,a@a,a,a,0,Male,2016-07-06 21:59:29,Linux,Firefox
+prova 2,b@b,b,b,0,Female,2016-07-06 21:59:42,Linux,Firefox
+prova 2,a@a,a,a,0,Male,2016-07-07 00:01:09,Linux,Firefox
+prova 3,a@a,a,a,0,Male,2016-07-07 20:16:32,Linux,Firefox
+prova 3,a@a,a,a,0,Male,2016-07-08 21:45:49,Linux,Firefox
+prova 3,a@a,a,a,0,Male,2016-07-13 00:15:14,Linux,Chrome
+prova 2,a@a,a,a,0,Male,2016-09-23 01:45:22,Android,Mobile App
+prova 3,a@a,a,a,0,Male,2016-09-23 10:38:24,iPhone,Safari
+prova 3,a@a,a,a,0,Male,2016-09-23 10:40:32,iPhone,Safari
+prova 3,Not registered,Not registered,Not registered,Not registered,Not registered,2016-09-23 10:40:40,iPhone,Safari
+prova 3,Not registered,Not registered,Not registered,Not registered,Not registered,2016-09-23 10:40:48,iPhone,Safari
+prova 3,alessandro.zini3@studio.unibo.it,Alessandro,Zini,22,Male,2016-09-23 10:44:55,Linux,Chrome
+prova 1,a@a,a,a,0,Male,2016-10-04 21:24:44,Windows,Chrome
+prova 2,a@a,a,a,0,Male,2016-10-04 21:24:49,Windows,Chrome
+prova 3,a@a,a,a,0,Male,2016-10-04 21:25:52,Windows,Chrome
+prova 2,a@a,a,a,0,Male,2016-10-07 22:03:19,Android,Mobile App

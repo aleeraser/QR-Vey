@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+  <title>QR-VEY</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon-32x32.png') }}" sizes="32x32">
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon-16x16.png') }}" sizes="16x16">
+  <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+  <link rel="mask-icon" href="{{ url_for('static', filename='safari-pinned-tab.svg') }}" color="#5bbad5">
+  <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+  <meta name="msapplication-config" content="/static/browserconfig.xml">
+  <meta name="theme-color" content="#09180d">
+
+  <!-- CSS  -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="../static/css/materialize.custom.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="../static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+
+  <!-- jQuery CDN, with fallback-->
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script>if (!window.jQuery) { document.write('<script src="../static/js/jquery-3.0.0.min.js"><\/script>'); }</script>
+</head>
+<body>
+  <nav role="navigation">
+    <div class="nav-wrapper container">
+      {{navbar|safe}}
+      <ul class="right hide-on-med-and-down">
+        {{menu_options|safe}} <!-- Dynamic elements added with python -->
+      </ul>
+
+      <ul id="nav-mobile" class="side-nav">
+        {{menu_options|safe}} <!-- Dynamic elements added with python -->
+      </ul>
+      <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+      {{modal_about|safe}}
+    </div>
+  </nav>
+
+  <header>
+    <div class="section no-pad-bot" id="index-banner">
+      <div class="container">
+        <br/><br class="hide-on-small-and-down" />
+        <h1 class="header center orange-text">QR-VEY</h1>
+        <div class="row center">
+          <h5 class="header col s12 light">An online platform for creating QR-code based surveys</h5>
+        </div>
+        <br class="hide-on-small-and-down" />
+        <div class="row center">
+          {{homepage_index|safe}}
+        </div>
+        <br class="hide-on-small-and-down" /><br class="hide-on-small-and-down" />
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="section" id="page_content">
+      <div class="container">
+
+        <div class="row">
+          <div class="col s12 m4">
+            <div class="icon-block">
+              <h2 class="center light-blue-text homepage_icon"><i class="material-icons">check_box</i></h2>
+              <h5 class="center">Scan to vote</h5>
+
+              <p class="light">Combine traditional surveys with the technology of QR-CODEs to create effective surveys. QR-CODEs have become world-wide popular, and everyone knows how they work. Just scan, and you're done!</p>
+            </div>
+          </div>
+
+          <div class="col s12 m4">
+            <div class="icon-block">
+              <h2 class="center light-blue-text"><i class="material-icons">record_voice_over</i></h2>
+              <h5 class="center">Spread your surveys</h5>
+
+              <p class="light">Print your surveys and the related QR-CODEs on paper, or project them on a screen during a conference. Need to know which color you should use to paint your office door? Make a survey and stick it on the door, and let your collegues scan the answers.</p>
+            </div>
+          </div>
+
+          <div class="col s12 m4">
+            <div class="icon-block">
+              <h2 class="center light-blue-text"><i class="material-icons">show_chart</i></h2>
+              <h5 class="center">Statistics and charts</h5>
+
+              <p class="light">You can manage your surveys in your account dashboard, and see real-time statistics, as well as track the user's feedback about your survey with a lot of different graphics: columns, bars, pie, etc.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  {{footer|safe}} <!-- Dynamic footer added with python -->
+
+  <!--  Scripts-->
+  <script src="../static/js/materialize.min.js"></script>
+  <script src="../static/js/init.js"></script>
+
+  <script type="text/javascript">
+    $('#register-button').on('click', function(){
+      if ($(this).text() == "Go to your dashboard") {
+        window.location.replace('/userhome');
+      } else {
+        window.location.replace('/signup');
+      }
+    });
+  </script>
+
+</body>
+</html>

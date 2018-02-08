@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+	<title>QR-VEY</title>
+	<link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
+	<link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon-32x32.png') }}" sizes="32x32">
+	<link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon-16x16.png') }}" sizes="16x16">
+	<link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+	<link rel="mask-icon" href="{{ url_for('static', filename='safari-pinned-tab.svg') }}" color="#5bbad5">
+	<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+	<meta name="msapplication-config" content="/static/browserconfig.xml">
+	<meta name="theme-color" content="#09180d">
+
+	<!-- CSS  -->
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link href="../static/css/materialize.custom.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+	<link href="../static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+
+	<!-- jQuery CDN, with fallback-->
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script>if (!window.jQuery) { document.write('<script src="../static/js/jquery-3.0.0.min.js"><\/script>'); }</script>
+</head>
+<body>
+	<nav role="navigation">
+		<div class="nav-wrapper container">
+			{{navbar|safe}}
+			<ul class="right hide-on-med-and-down">
+				{{menu_options|safe}} <!-- Dynamic elements added with python -->
+			</ul>
+
+			<ul id="nav-mobile" class="side-nav">
+				{{menu_options|safe}} <!-- Dynamic elements added with python -->
+			</ul>
+			<a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+			{{modal_about|safe}}
+		</div>
+	</nav>
+
+	<header>
+		<div class="section">
+			<br/>
+			<div class="container">
+				<div class="row center-on-small-only hide-on-med-and-up">
+					<a class="btn survey_action red" href='/userhome'><span class="hide-on-small-and-down">Back to dashboard</span><i class="material-icons hide-on-med-and-up">navigate_before</i></a>
+
+					<a class="btn survey_action orange" href='{{show_charts}}'><span class="hide-on-small-and-down">Charts & Stats</span><i class="material-icons hide-on-med-and-up">insert_chart</i></a>
+
+					<a class="btn survey_action blue" href='{{download_pdf}}' id='download_pdf' target='_blank'><span class="hide-on-small-and-down">Download PDF</span><i class="material-icons hide-on-med-and-up">description</i></a>
+				</div>
+
+				<div id="survey_details" class="card-panel center-on-small-only white-text teal lighten-1">Details of "{{survey}}"</div>
+			</div>
+		</div>
+	</header>
+
+	<main>
+		<div class="section mobile-section">
+			<div class="container">
+				<div class="row mobile-row">
+					<div class="col s12 m6">
+						<span class="card-panel col s12 m5 teal-text darken-4-text teal lighten-5">Description</span>
+						<br/><br/>
+						<p class="teal-text">
+							{{description}}
+						</p>
+					</div>
+					<div class="col s12 m4 offset-m2">
+						<span class="card-panel col s12 m5 teal-text darken-4-text teal lighten-5">Submitted on</span>
+						<br/><br/>
+						<p class="teal-text">
+							{{submit_time}}
+						</p>
+					</div>
+				</div>
+
+				<div class="row mobile-row">
+					<div class="col s12">
+						<span class="card-panel col s12 teal-text darken-4-text teal lighten-5">Answers & QR-codes</span>
+						<br/><br/>
+						{{answers|safe}}
+					</div>
+				</div>
+
+				<div class="row center-on-small-only">
+					<a class="btn survey_action blue csv" href='#' id="download_btn"><span class="hide-on-small-and-down">Export stats to CSV</span><img src="../static/img/icons/csv_128x128.png" id="csv_icon" class="hide-on-med-and-up"></a>
+					<form id="download_form" action="{{csv_url}}" method="POST"><input type="hidden" name="param1" value="value1"></form>
+				</div>
+
+				<div class="row center-on-small-only">
+					<a class="btn survey_action green modal-trigger" href='#confirm_modal' path="{{delete_survey}}" id='delete_survey'><span class="hide-on-small-and-down">Delete survey</span><i class="material-icons hide-on-med-and-up">delete_forever</i></a>
+				</div>
+
+				<div class="row center-on-small-only">
+					<a class="btn survey_action red" href='/userhome'><span class="hide-on-small-and-down">Back to dashboard</span><i class="material-icons hide-on-med-and-up">navigate_before</i></a>
+
+					<a class="btn survey_action orange" href='{{show_charts}}'><span class="hide-on-small-and-down">Charts & Stats</span><i class="material-icons hide-on-med-and-up">insert_chart</i></a>
+
+					<a class="btn survey_action blue" href='{{download_pdf}}' id='download_pdf' target='_blank'><span class="hide-on-small-and-down">Download PDF</span><i class="material-icons hide-on-med-and-up">description</i></a>
+				</div>
+
+				<!-- <div class="row center-on-small-only">
+					{{download_pdf|safe}}
+				</div> -->
+				<div class="row center-on-small-only">
+					<!-- {{delete_survey|safe}} -->
+					<!-- Modal Structure -->
+					<div id="confirm_modal" class="modal">
+						<div class="modal-content">
+							<h4>Confirm</h4>
+							<p>Are you sure you want to delete the survey?</p>
+						</div>
+						<div class="modal-footer">
+							<a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">No</a>
+							<a id="confirm_modal_yes" href="" class="modal-action modal-close waves-effect waves-green btn-flat">Yes</a>
+						</div>
+					</div>
+				</div>
+				<!-- <div class="row center-on-small-only">
+					<button id="new_survey" class="waves-effect waves-light btn light-green darken-2" type="button" onclick="location.href='/userhome'">Back to dashboard</button>
+				</div> -->
+			</div>
+		</div>
+
+	</main>
+
+	{{footer|safe}} <!-- Dynamic footer added with python -->
+
+	<!--  Scripts-->
+	<script src="../static/js/materialize.min.js"></script>
+	<script src="../static/js/init.js"></script>
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$("#confirm_modal_yes").attr("href", $("#delete_survey").attr("path"));
+			$('.modal-trigger').leanModal();
+
+			$("#download_btn").on("click", function() {
+				$("#download_form").submit();
+			})
+		});
+
+		// function confirmDelete() {
+		// 	var response = confirm("Are you sure you want to delete the survey?");
+		// 	if (response == true) {
+		// 		window.location.href = $("#delete_survey").attr("path");
+		// 	}
+		// }
+	</script>
+
+</body>
+</html>

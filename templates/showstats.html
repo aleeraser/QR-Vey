@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+	<title>QR-VEY</title>
+	<link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
+	<link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon-32x32.png') }}" sizes="32x32">
+	<link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon-16x16.png') }}" sizes="16x16">
+	<link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+	<link rel="mask-icon" href="{{ url_for('static', filename='safari-pinned-tab.svg') }}" color="#5bbad5">
+	<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+	<meta name="msapplication-config" content="/static/browserconfig.xml">
+	<meta name="theme-color" content="#09180d">
+
+	<!-- CSS  -->
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link href="../static/css/materialize.custom.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+	<link href="../static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+
+	<!-- jQuery CDN, with fallback-->
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script>if (!window.jQuery) { document.write('<script src="../static/js/jquery-3.0.0.min.js"><\/script>'); }</script>
+</head>
+<body>
+	<nav role="navigation">
+		<div class="nav-wrapper container">
+			{{navbar|safe}}
+			<ul class="right hide-on-med-and-down">
+				{{menu_options|safe}} <!-- Dynamic elements added with python -->
+			</ul>
+
+			<ul id="nav-mobile" class="side-nav">
+				{{menu_options|safe}} <!-- Dynamic elements added with python -->
+			</ul>
+			<a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+			{{modal_about|safe}}
+		</div>
+	</nav>
+
+	<header>
+		<div class="section">
+			<br/>
+			<div class="container">
+				<div class="row center-on-small-only hide-on-med-and-up">
+					<a class="btn survey_action red" href='{{survey_url}}'><span class="hide-on-small-and-down">Back</span><i class="material-icons hide-on-med-and-up">navigate_before</i></a>
+				</div>
+
+				<div id="survey_details" class="card-panel center-on-small-only white-text teal lighten-1">Charts of "{{survey}}"</div>
+			</div>
+		</div>
+	</header>
+
+	<main>
+		<div class="section mobile-section">
+			<div class="container">
+				<div id="chart_content">
+					Select chart to show:
+					<br/>
+					<p><div class="input-field col s12">
+						<select id="content_select">
+							<option value="1">Answers</option>
+							<option value="2">Age of (registered) voters</option>
+							<option value="3">Gender of (registered) voters</option>
+							<option value="4">Browsers used by voters</option>
+							<option value="5">Devices used by voters</option>
+							<option value="6">Votes by days</option>
+							<option value="7">Votes by time slots</option>
+						</select>
+					</div></p>
+				</div>
+
+				<br/>				
+
+				<div id="chart_types">
+					Select chart type:
+					<br/>
+					<p><input name="chart_type" type="radio" id="column" checked="checked" />
+						<label for="column">Columns</label></p>
+						<p><input name="chart_type" type="radio" id="bar" />
+							<label for="bar">Bar</label></p>
+							<p><input name="chart_type" type="radio" id="pie" />
+								<label for="pie">Pie</label></p>
+								<p><input name="chart_type" type="radio" id="spline" />
+									<label for="spline">Spline</label></p>
+									<p><input name="chart_type" type="radio" id="line" />
+										<label for="line">Line</label></p>
+									</div>
+
+									<div id="chartContainer_outer" class="row mobile-row col s12">
+										<span class="card-panel chart-panel col s12 teal-text darken-4-text teal lighten-5">Answers</span>
+										<br/><br/><br/>
+										<div id="chartContainer" style="height: 300px; width: 100%;"></div>
+									</div>
+									
+									<br/>
+									<div class="row center-on-small-only">
+										<a class="btn survey_action red" href='{{survey_url}}'><span class="hide-on-small-and-down">Back</span><i class="material-icons hide-on-med-and-up">navigate_before</i></a>
+									</div>
+								</div>
+							</div>
+						</main>
+
+						{{footer|safe}} <!-- Dynamic footer added with python -->
+
+						<!--  Scripts-->
+						<script src="../static/js/materialize.min.js"></script>
+						<script src="../static/js/init.js"></script>
+						<script src="../static/js/jquery.canvasjs.min.js"></script>
+						<!-- <script type="text/javascript" src="http://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script> -->
+
+						<script type="text/javascript">
+
+							var contents = [null, "answers", "age", "sex", "browser", "device", "day", "hour"];
+
+		// chart options variable
+		var options = {
+			data: [
+			{
+					type: "", //change it to column, spline, line, pie, etc
+					dataPoints: [] 
+				}
+				]
+			};
+
+		// function to set chart options based on response and parameter
+		var setOptions = function(chart_type, chart_content) {
+			var data = { content: chart_content };
+			$.ajax({
+				url: '{{survey_url}}_getstats',
+				type: "POST",
+				data: JSON.stringify(data),
+				dataType: "json",
+				contentType: 'application/json; charset=utf-8',
+				success: function(response) {
+					options.data[0].type = chart_type;
+					options.data[0].dataPoints = response["data"];
+					$("#chartContainer").CanvasJSChart(options);
+				},
+				error: function(a, b, c) {
+					console.log(a, b, c);
+				}
+			});
+		};
+
+		$(document).ready(function() {
+			$('select').material_select();
+			setOptions("column", "answers");
+		});
+
+
+		// function to change chart
+		var updateChart = function(chart_type){
+			if (chart_type === null) {
+				chart_type = options.data[0].type;
+			}
+			options.data[0].type = chart_type;
+			$("#chartContainer").CanvasJSChart(options);
+		};
+
+		$("#content_select").change(function(){
+			if ((contents[$(this).val()] == "day") || (contents[$(this).val()] == "hour")) {
+				$("#line").prop("checked", true);
+			} else {
+				if ($("#line").prop("checked") || $("#spline").prop("checked")) {
+					$("#column").prop("checked", true);
+				}
+			}
+			setOptions($("#chart_types :checked").attr("id"), contents[$(this).val()]);
+		});
+
+		$("#column, #bar, #pie, #spline, #line").change(function(){
+			if ($(this).is(":checked")) {
+				updateChart($(this).attr("id"));
+			}			
+		});
+	</script>
+
+</body>
+</html>

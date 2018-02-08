@@ -1,0 +1,15 @@
+.vscode/
+
+flaskenv/
+
+config.json
+
+commands
+
+setup/
+
+App/
+
+templates/corsica.html
+
+app.pyc

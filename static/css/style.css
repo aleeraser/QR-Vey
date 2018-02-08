@@ -1,0 +1,113 @@
+/* Custom Stylesheet */
+/**
+* Use this file to override Materialize files so you can update
+* the core Materialize files in the future
+*
+* Made By MaterializeCSS.com
+*/
+
+body {
+	display: flex;
+	min-height: 100vh;
+	flex-direction: column;
+}
+main {
+	flex: 1 0 auto;
+} 
+
+.icon-block {
+	padding: 0 15px;
+}
+.icon-block .material-icons {
+	font-size: inherit;
+}
+.input-field .error:nth-of-type(1) {
+	color: red;
+}
+#form_section {
+	width: 98%;
+}
+.mobile_row {
+	margin-bottom: 0 !important;
+}
+@media only screen and (max-width: 600px) {
+	.margin-on-mobile-only {
+		margin-top: 5em !important;
+	}
+	.mobile-row {
+		margin-bottom: 0;
+	}
+	.mobile-section {
+		padding-top: 0;
+	}
+	.csv {
+		height: 5em;
+		padding: 0.5em 0.1em 0.6em 0em;
+	}
+	#csv_icon {
+		width: 4em;
+	}
+	.section {
+		padding-top: 0;
+	}
+}
+@media only screen and (min-width: 601px) {
+	footer.page-footer .footer-copyright {
+		line-height: 50px;
+	}
+}
+.card-panel {
+	width: 100% !important;
+	padding: 0.5em !important;
+	margin-bottom: 0.5em !important;
+}
+a.collection-item:hover {
+	background-color: #00796b !important;
+	color: white !important;
+}
+nav {
+	background-color: #003333;
+}
+
+#logo-wrapper img {
+	width: 6em;
+	height: 2em;
+	object-fit: contain;
+}
+footer a {
+	color: #e65100;
+}
+.answer_row {
+	margin-left: 1px !important;
+}
+#counter {
+	display: none;
+}
+#survey_details {
+	font-size: large;
+}
+#votes {
+	font-size: 1.3em;
+}
+#icon_pdf {
+	font-size: 1em !important;
+}
+.survey_action {
+	margin: 0 0.5em;
+}
+.canvasjs-chart-credit {
+	display: none;
+}
+.chart-panel {
+	text-align: center;
+}
+#modal_about p {
+	line-height: 2em;
+}
+#modal_about p a {
+	color: #a5d6a7;
+	font-weight: 500;
+}
+.modal .modal-content {
+	padding-bottom: 0;
+}

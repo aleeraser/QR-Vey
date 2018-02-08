@@ -1,0 +1,1231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+	<title>QR-VEY</title>
+	<link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
+	<link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon-32x32.png') }}" sizes="32x32">
+	<link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon-16x16.png') }}" sizes="16x16">
+	<link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+	<link rel="mask-icon" href="{{ url_for('static', filename='safari-pinned-tab.svg') }}" color="#5bbad5">
+	<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+	<meta name="msapplication-config" content="/static/browserconfig.xml">
+	<meta name="theme-color" content="#09180d">
+
+	<!-- CSS  -->
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link href="../static/css/materialize.custom.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+	<link href="../static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+
+	<!-- jQuery CDN, with fallback-->
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script>if (!window.jQuery) { document.write('<script src="../static/js/jquery-3.0.0.min.js"><\/script>'); }</script>
+	<style>
+       #map {
+        height: 50em;
+        width: 100%;
+        margin-top: 10em;
+       }
+    </style>
+</head>
+<body>
+	<nav role="navigation">
+		<div class="nav-wrapper container">
+			{{navbar|safe}}
+			<ul class="right hide-on-med-and-down">
+				{{menu_options|safe}} <!-- Dynamic elements added with python -->
+			</ul>
+
+			<ul id="nav-mobile" class="side-nav">
+				{{menu_options|safe}} <!-- Dynamic elements added with python -->
+			</ul>
+			<a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+			{{modal_about|safe}}
+		</div>
+	</nav>
+
+	<header>
+		<div class="section">
+			<br/>
+			<div class="container">
+				<div class="row center-on-small-only hide-on-med-and-up">
+					{{dashboard|safe}}
+				</div>
+
+				<div id="survey_details" class="card-panel center white-text teal lighten-1"><b>The World Harbour Project</b></div>
+			</div>
+		</div>
+	</header>
+
+	<main>
+		<div class="section mobile-section">
+			<div class="container">
+				<form action="#" id="main_form">
+					<!-- <div class="row mobile-row">
+						<div class="col s12 m6">
+							<span class="card-panel col s12 m5 teal-text darken-4-text teal lighten-5">Description</span>
+							<br/><br/>
+							<p class="teal-text">
+								{{description}}
+							</p>
+						</div>
+						<div class="col s12 m4 offset-m2">
+							<span class="card-panel col s12 m5 teal-text darken-4-text teal lighten-5">Submitted on</span>
+							<br/><br/>
+							<p class="teal-text">
+								{{submit_time}}
+							</p>
+						</div>
+					</div> -->	
+
+					<div class="row mobile-row">
+						<div class="col s12">
+							<!-- <span class="card-panel col s12 teal-text darken-4-text teal lighten-5">Answers & QR-codes</span>
+							<br/><br/>
+							{{answers|safe}} -->	
+
+							<div class='row'><div class='col s12'><div class='card'><div class="card-image"><img src="../static/whp/whp.png"></div></div></div></div>
+						</div>
+					</div>
+
+
+					<!-- ###################### PART 1 ###################### -->
+
+					<div class="row mobile-row">
+						<div class="col s12">
+							<span class="card-panel col s12 teal-text darken-4-text teal lighten-5"><p class="center"><b>PART 1</b><br/>This first section focuses on the way in which you use the harbour. To clarify, the harbour catchment as shown above is the area defined as 10 km around the coast. The foreshore is defined as 0.5 km from the coast into coastal waters.</p></span>
+							<br/><br/>
+						</div>
+					</div>	
+
+					<div class="row mobile-row">
+						<div class="col s12">
+							<p class="teal-text darken-4-text"><b>Please select the harbour that is relevant to you.</b></p>
+						</div>
+						<div class="col s12 input-field">
+							<select id="select_ports" name="select_ports">
+								<option question="1" value="" disabled selected>Choose your option</option>
+								<option question="1" value="1">Auckland</option>
+								<option question="1" value="2">Hobart</option>
+								<option question="1" value="3">Sydney</option>
+								<option question="1" value="4">Tauranga</option>
+							</select>
+							<label>Harbours</label>
+						</div>
+						<div id="port_img_container" class='col s10 offset-s1 center'>
+							<div class='card'>
+								<div class="card-image">
+									<img id="port_pictures" src="" alt="Port map">
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="row mobile-row">
+						<div class="col s12">
+							<p class="teal-text darken-4-text"><b>1) How do you primarily use the harbour catchment? (Tick one box only)</b></p>					
+							<p><input question="1_1" name="harbour_use" type="radio" id="1" />
+								<label for="1"><span class="black-text">Property: Home or business property, either owning or renting</span></label></p>
+							<p><input question="1_1" name="harbour_use" type="radio" id="2" />
+								<label for="2"><span class="black-text">Transport: Travel to or from work</span></label></p>
+							<p><input question="1_1" name="harbour_use" type="radio" id="3" />
+								<label for="3"><span class="black-text">Leisure: Any recreational activity such as social gatherings, walking, cycling, jogging, picnicking, sailing, recreational fishing</span></label></p>
+							<p><input question="1_1" name="harbour_use" type="radio" id="4" />
+								<label for="4"><span class="black-text">Work: paid activities such as tour guide, fisherman, boat builder, harbour manager, ferry driver, scientist, personal trainer or dog walking business</span></label></p>
+							<p><input question="1_1" name="harbour_use" type="radio" id="5" />
+								<label for="5"><span class="black-text">Volunteer work: Unpaid work such as Bush care, whale watching, litter picking, surf patrol</span></label></p>
+							<p><input question="1_1" name="harbour_use" type="radio" id="6" />
+								<label for="6"><span class="black-text">Cultural Use- traditional medicines?, plant collections?, food collection?, Making tools? Prayer/dream time (too specific?) or something similar?</span></label></p>
+							<p><input question="1_1" name="harbour_use" type="radio" id="7" />
+								<label for="7"><span class="black-text">I do not use the harbour in any way</span></label></p>
+						</div>	
+					</div>	
+
+					<div class="row mobile-row">
+						<div class="col s12">
+							<p class="teal-text darken-4-text"><b>2) What is the frequency of your main activity? (Choose the option that best suits)</b></p>
+							<p><input question="1_2" name="frequency" type="radio" id="8" />
+								<label for="8"><span class="black-text">I live here</span></label></p>
+							<p><input question="1_2" name="frequency" type="radio" id="9" />
+								<label for="9"><span class="black-text">One visit daily or more</span></label></p>
+							<p><input question="1_2" name="frequency" type="radio" id="10" />
+								<label for="10"><span class="black-text">One visit per week or more</span></label></p>
+							<p><input question="1_2" name="frequency" type="radio" id="11" />
+								<label for="11"><span class="black-text">Once or twice per month</span></label></p>
+							<p><input question="1_2" name="frequency" type="radio" id="12" />
+								<label for="12"><span class="black-text">Once every 2 to 3 months</span></label></p>
+							<p><input question="1_2" name="frequency" type="radio" id="13" />
+								<label for="13"><span class="black-text">Once every 4 to 6 months</span></label></p>
+							<p><input question="1_2" name="frequency" type="radio" id="14" />
+								<label for="14"><span class="black-text">Occasionally or rarely (less than 4 to 6 visits per year)</span></label></p>
+						</div>	
+					</div>
+
+
+					<hr/><br/><br/>
+
+					<!-- ###################### PART 2 ###################### -->
+
+					<div class="row mobile-row">
+						<div class="col s12">
+							<span class="card-panel col s12 teal-text darken-4-text teal lighten-5"><p class="center"><b>PART 2</b><br/>In the next section we are interested in your views on green engineering.</p></span>
+							<br/><br/>
+						</div>
+					</div>
+
+					<div class="row mobile-row">
+						<div class="col s12 l6 offset-l3">
+							<span class="card-panel col s12 orange-text darken-4-text orange lighten-5">
+								<p class="center">
+									<i class="tiny material-icons">info_outline</i> <b>What is green engineering?</b> <i class="tiny material-icons">info_outline</i>
+									<br/>
+									Green engineering is the practice of combining engineering and ecology on man made structures in terrestrial and marine systems (such as jetties, breakwaters, groynes and seawalls).
+									<br/>
+									In X Harbour, potential green engineering include the use of pots in vertical harbour walls to simulate rock pools (A and D), green walls to insulate and beautify buildings (B), textured vertical walls to provide habitat niches for sea creatures (C).
+								</p>
+							</span>
+							<br/><br/>
+						</div>
+					</div>
+
+					<div class="row mobile-row">
+						<div class="col s12">
+							<p class="teal-text darken-4-text"><b>1) I am supportive of green engineering in my harbour</b></p>
+							<p><input question="2_1" name="supportive" type="radio" id="15" />
+								<label for="15"><span class="black-text">Agree</span></label></p>
+							<p><input question="2_1" name="supportive" type="radio" id="16" />
+								<label for="16"><span class="black-text">Disagree</span></label></p>
+						</div>
+					</div>
+
+					<div class="row mobile-row">
+						<div class="col s12">
+							<p class="teal-text darken-4-text"><b>2) What are the positive effects of green engineering. For each one, please indicate the extent to which you agree or disagree.</b></p>
+
+							<table class="bordered striped centered responsive-table">
+								<thead>
+									<tr>
+										<th data-field="empty"></th>
+										<th data-field="s_dis">Strongly disagree</th>
+										<th data-field="dis">Disagree</th>
+										<th data-field="indiff">Indifferent</th>
+										<th data-field="agr">Agree</th>
+										<th data-field="s_agr">Strongly agree</th>
+									</tr>
+								</thead>
+
+								<tbody>
+									<tr>
+										<td>Green engineering in harbours is important</td>
+										<td><input question="2_2_table_row1" name="table2_2_row1" type="radio" id="17" /><label for="17"></label></td>
+										<td><input question="2_2_table_row1" name="table2_2_row1" type="radio" id="18" /><label for="18"></label></td>
+										<td><input question="2_2_table_row1" name="table2_2_row1" type="radio" id="19" /><label for="19"></label></td>
+										<td><input question="2_2_table_row1" name="table2_2_row1" type="radio" id="20" /><label for="20"></label></td>
+										<td><input question="2_2_table_row1" name="table2_2_row1" type="radio" id="21" /><label for="21"></label></td>
+									</tr>
+									<tr>
+										<td>Increasing abundance of <span class="red-text">native</span> species is important</td>
+										<td><input question="2_2_table_row2" name="table2_2_row2" type="radio" id="22" /><label for="22"></label></td>
+										<td><input question="2_2_table_row2" name="table2_2_row2" type="radio" id="23" /><label for="23"></label></td>
+										<td><input question="2_2_table_row2" name="table2_2_row2" type="radio" id="24" /><label for="24"></label></td>
+										<td><input question="2_2_table_row2" name="table2_2_row2" type="radio" id="25" /><label for="25"></label></td>
+										<td><input question="2_2_table_row2" name="table2_2_row2" type="radio" id="26" /><label for="26"></label></td>
+									</tr>
+									<tr>
+										<td>Aesthetics and making green engineering visually appealing is important</td>
+										<td><input question="2_2_table_row3" name="table2_2_row3" type="radio" id="27" /><label for="27"></label></td>
+										<td><input question="2_2_table_row3" name="table2_2_row3" type="radio" id="28" /><label for="28"></label></td>
+										<td><input question="2_2_table_row3" name="table2_2_row3" type="radio" id="29" /><label for="29"></label></td>
+										<td><input question="2_2_table_row3" name="table2_2_row3" type="radio" id="30" /><label for="30"></label></td>
+										<td><input question="2_2_table_row3" name="table2_2_row3" type="radio" id="31" /><label for="31"></label></td>
+									</tr>
+									<tr>
+										<td>Reducing the abundance of invasive species is important</td>
+										<td><input question="2_2_table_row4" name="table2_2_row4" type="radio" id="32" /><label for="32"></label></td>
+										<td><input question="2_2_table_row4" name="table2_2_row4" type="radio" id="33" /><label for="33"></label></td>
+										<td><input question="2_2_table_row4" name="table2_2_row4" type="radio" id="34" /><label for="34"></label></td>
+										<td><input question="2_2_table_row4" name="table2_2_row4" type="radio" id="35" /><label for="35"></label></td>
+										<td><input question="2_2_table_row4" name="table2_2_row4" type="radio" id="36" /><label for="36"></label></td>
+									</tr>
+									<tr>
+										<td>Improving nursery habitats for <span class="red-text">native</span> species is important</td>
+										<td><input question="2_2_table_row5" name="table2_2_row5" type="radio" id="37" /><label for="37"></label></td>
+										<td><input question="2_2_table_row5" name="table2_2_row5" type="radio" id="38" /><label for="38"></label></td>
+										<td><input question="2_2_table_row5" name="table2_2_row5" type="radio" id="39" /><label for="39"></label></td>
+										<td><input question="2_2_table_row5" name="table2_2_row5" type="radio" id="40" /><label for="40"></label></td>
+										<td><input question="2_2_table_row5" name="table2_2_row5" type="radio" id="41" /><label for="41"></label></td>
+									</tr>
+									<tr>
+										<td>Improving the water quality is important</td>
+										<td><input question="2_2_table_row6" name="table2_2_row6" type="radio" id="42" /><label for="42"></label></td>
+										<td><input question="2_2_table_row6" name="table2_2_row6" type="radio" id="43" /><label for="43"></label></td>
+										<td><input question="2_2_table_row6" name="table2_2_row6" type="radio" id="44" /><label for="44"></label></td>
+										<td><input question="2_2_table_row6" name="table2_2_row6" type="radio" id="45" /><label for="45"></label></td>
+										<td><input question="2_2_table_row6" name="table2_2_row6" type="radio" id="46" /><label for="46"></label></td>
+									</tr>
+									<tr>
+										<td>Stabilising the shoreline is important</td>
+										<td><input question="2_2_table_row7" name="table2_2_row7" type="radio" id="47" /><label for="47"></label></td>
+										<td><input question="2_2_table_row7" name="table2_2_row7" type="radio" id="48" /><label for="48"></label></td>
+										<td><input question="2_2_table_row7" name="table2_2_row7" type="radio" id="49" /><label for="49"></label></td>
+										<td><input question="2_2_table_row7" name="table2_2_row7" type="radio" id="50" /><label for="50"></label></td>
+										<td><input question="2_2_table_row7" name="table2_2_row7" type="radio" id="51" /><label for="51"></label></td>
+									</tr>
+									<tr>
+										<td>Minimising risks of degradation to existing habitats is important</td>
+										<td><input question="2_2_table_row8" name="table2_2_row8" type="radio" id="52" /><label for="52"></label></td>
+										<td><input question="2_2_table_row8" name="table2_2_row8" type="radio" id="53" /><label for="53"></label></td>
+										<td><input question="2_2_table_row8" name="table2_2_row8" type="radio" id="54" /><label for="54"></label></td>
+										<td><input question="2_2_table_row8" name="table2_2_row8" type="radio" id="55" /><label for="55"></label></td>
+										<td><input question="2_2_table_row8" name="table2_2_row8" type="radio" id="56" /><label for="56"></label></td>
+									</tr>
+								</tbody>
+							</table>
+
+						</div>
+					</div>
+
+					<div class="row mobile-row">
+						<div class="col s12">
+							<p class="teal-text darken-4-text"><b>3) Do you think there are negative effects to green engineering? Tick if appropriate.</b></p>
+							<p><input question="2_3" name="negative" type="radio" id="57" />
+								<label for="57"><span class="black-text">Interfering with harbour structures</span></label></p>
+							<p><input question="2_3" name="negative" type="radio" id="58" />
+								<label for="58"><span class="black-text">Increased cost of development</span></label></p>
+							<p><input question="2_3" name="negative" type="radio" id="59" />
+								<label for="59"><span class="black-text">Environmental impact</span></label></p>
+							<p><input question="2_3" name="negative" type="radio" id="60" />
+								<label for="60"><span class="black-text">Health and safety concerns</span></label></p>
+							<p><input question="2_3" name="negative" type="radio" id="61" />
+								<label for="61"><span class="black-text">None</span></label></p>
+
+							<p><input question="2_3" name="negative" type="radio" id="62" />
+								<label for="62"><span class="black-text">Other</span></label>
+								<!-- <div class="col s12"> -->
+									<div class="input-field inline">
+										<input question="2_3_spec" disabled id="negative_other_text" type="text">
+										<label for="negative_other_text">Please specify:</label>
+									</div>
+								<!-- </div> -->
+							</p>
+						</div>	
+					</div>
+
+					<div class="row mobile-row">
+						<div class="col s12">
+							<p class="teal-text darken-4-text"><b>4) Listed below are statements about the cost of green engineering in your harbour. For each one, please indicate the extent to which you agree or disagree.</b></p>
+
+							<table class="bordered striped centered responsive-table">
+								<thead>
+									<tr>
+										<th data-field="empty"></th>
+										<th data-field="s_dis">Strongly disagree</th>
+										<th data-field="dis">Disagree</th>
+										<th data-field="indiff">Indifferent</th>
+										<th data-field="agr">Agree</th>
+										<th data-field="s_agr">Strongly agree</th>
+									</tr>
+								</thead>
+
+								<tbody>
+									<tr>
+										<td>I would be willing to donate money</td>
+										<td><input question="2_4_table_row1" name="table2_4_row1" type="radio" id="63" /><label for="63"></label></td>
+										<td><input question="2_4_table_row1" name="table2_4_row1" type="radio" id="64" /><label for="64"></label></td>
+										<td><input question="2_4_table_row1" name="table2_4_row1" type="radio" id="65" /><label for="65"></label></td>
+										<td><input question="2_4_table_row1" name="table2_4_row1" type="radio" id="66" /><label for="66"></label></td>
+										<td><input question="2_4_table_row1" name="table2_4_row1" type="radio" id="67" /><label for="67"></label></td>
+									</tr>
+									<tr>
+										<td>I would be willing to pay extra taxes</td>
+										<td><input question="2_4_table_row2" name="table2_4_row2" type="radio" id="68" /><label for="68"></label></td>
+										<td><input question="2_4_table_row2" name="table2_4_row2" type="radio" id="69" /><label for="69"></label></td>
+										<td><input question="2_4_table_row2" name="table2_4_row2" type="radio" id="70" /><label for="70"></label></td>
+										<td><input question="2_4_table_row2" name="table2_4_row2" type="radio" id="71" /><label for="71"></label></td>
+										<td><input question="2_4_table_row2" name="table2_4_row2" type="radio" id="72" /><label for="72"></label></td>
+									</tr>
+									<tr>
+										<td>I would be willing to pay a council levy</td>
+										<td><input question="2_4_table_row3" name="table2_4_row3" type="radio" id="73" /><label for="73"></label></td>
+										<td><input question="2_4_table_row3" name="table2_4_row3" type="radio" id="74" /><label for="74"></label></td>
+										<td><input question="2_4_table_row3" name="table2_4_row3" type="radio" id="75" /><label for="75"></label></td>
+										<td><input question="2_4_table_row3" name="table2_4_row3" type="radio" id="76" /><label for="76"></label></td>
+										<td><input question="2_4_table_row3" name="table2_4_row3" type="radio" id="77" /><label for="77"></label></td>
+									</tr>
+									<tr>
+										<td>I would be willing to vote to ensure businesses include the costs in future developments</td>
+										<td><input question="2_4_table_row4" name="table2_4_row4" type="radio" id="78" /><label for="78"></label></td>
+										<td><input question="2_4_table_row4" name="table2_4_row4" type="radio" id="79" /><label for="79"></label></td>
+										<td><input question="2_4_table_row4" name="table2_4_row4" type="radio" id="80" /><label for="80"></label></td>
+										<td><input question="2_4_table_row4" name="table2_4_row4" type="radio" id="81" /><label for="81"></label></td>
+										<td><input question="2_4_table_row4" name="table2_4_row4" type="radio" id="82" /><label for="82"></label></td>
+									</tr>
+								</tbody>
+							</table>
+
+						</div>
+					</div>
+
+
+					<hr/><br/><br/>
+
+					<!-- ###################### PART 3 ###################### -->
+
+					<div class="row mobile-row">
+						<div class="col s12" id="part3">
+							<span class="card-panel col s12 teal-text darken-4-text teal lighten-5"><p class="center"><b>PART 3</b><br/>Imagine you could influence the coastal management decision in your harbour. Please place a sticker on the map to indicate where you would like green engineering to occur, what you would like it to occur there and why.</p></span>
+							<br/>
+
+							<div class="col s12 l6 offset-l3" id="map_placeholder">
+								<span class="card-panel col s12 red-text darken-4-text red lighten-5">
+									<p class="center">
+										<i class="tiny material-icons">error_outline</i> <b>Please select a harbour in Part 1</b> <i class="tiny material-icons">error_outline</i>
+									</p>
+								</span>
+								<br/><br/>
+							</div>
+
+							<!-- Map will be placed here dynamically -->
+						</div>
+					</div>
+
+
+					<hr/><br/><br/>
+
+					<!-- ###################### PART 4 ###################### -->
+
+					<div class="row mobile-row">
+						<div class="col s12">
+							<span class="card-panel col s12 teal-text darken-4-text teal lighten-5"><p class="center"><b>PART 4</b><br/>Demographic information.<br/>This last section of the survey asks for information about your cultural, professional and ancestral background, which will help us to understand the connection between you and the harbour. All of the results from this survey are anonymous.</span></p></span>
+							<br/><br/>
+						</div>
+					</div>
+
+					<div class="row mobile-row">
+						<div class="col s12">
+							<p class="teal-text darken-4-text"><b>1) Which age range do you belong to?</b></p>
+							<p><input question="4_1" name="age" type="radio" id="83" />
+								<label for="83"><span class="black-text">18-34</span></label></p>
+							<p><input question="4_1" name="age" type="radio" id="84" />
+								<label for="84"><span class="black-text">35-54</span></label></p>
+							<p><input question="4_1" name="age" type="radio" id="85" />
+								<label for="85"><span class="black-text">55-74</span></label></p>
+							<p><input question="4_1" name="age" type="radio" id="86" />
+								<label for="86"><span class="black-text">75-94</span></label></p>
+							<p><input question="4_1" name="age" type="radio" id="87" />
+								<label for="87"><span class="black-text">95 and over</span></label></p>
+						</div>
+					</div>
+
+					<div class="row mobile-row">
+						<div class="col s12">
+							<p class="teal-text darken-4-text"><b>2) Which gender are you?</b></p>
+							<p><input question="4_2" name="gender" type="radio" id="88" />
+								<label for="88"><span class="black-text">Male</span></label></p>
+							<p><input question="4_2" name="gender" type="radio" id="89" />
+								<label for="89"><span class="black-text">Female</span></label></p>
+							<p><input question="4_2" name="gender" type="radio" id="90" />
+								<label for="90"><span class="black-text">Other</span></label></p>
+						</div>
+					</div>
+
+					<div class="row mobile-row">
+						<div class="col s12">
+							<p class="teal-text darken-4-text"><b>4) What is the highest level of schooling or highest level of Higher education qualification you have achieved?</b></p>
+							<p><input question="4_4" name="education" type="radio" id="91" />
+								<label for="91"><span class="black-text">Year 8 or below</span></label></p>
+							<p><input question="4_4" name="education" type="radio" id="92" />
+								<label for="92"><span class="black-text">Year 9 or equivalent</span></label></p>
+							<p><input question="4_4" name="education" type="radio" id="93" />
+								<label for="93"><span class="black-text">Year 10 or equivalent</span></label></p>
+							<p><input question="4_4" name="education" type="radio" id="94" />
+								<label for="94"><span class="black-text">Year 11 or equivalent</span></label></p>
+							<p><input question="4_4" name="education" type="radio" id="95" />
+								<label for="95"><span class="black-text">Year 12 or equivalent</span></label></p>
+							<p><input question="4_4" name="education" type="radio" id="96" />
+								<label for="96"><span class="black-text">School Education Level</span></label></p>
+							<p><input question="4_4" name="education" type="radio" id="97" />
+								<label for="97"><span class="black-text">Certificate Level</span></label></p>
+							<p><input question="4_4" name="education" type="radio" id="98" />
+								<label for="98"><span class="black-text">Advanced Diploma and Diploma Level</span></label></p>
+							<p><input question="4_4" name="education" type="radio" id="99" />
+								<label for="99"><span class="black-text">Graduate Diploma and Graduate Certificate Level</span></label></p>
+							<p><input question="4_4" name="education" type="radio" id="100" />
+								<label for="100"><span class="black-text">Bachelor Degree Level</span></label></p>
+							<p><input question="4_4" name="education" type="radio" id="101" />
+								<label for="101"><span class="black-text">Postgraduate Degree Level</span></label></p>
+						</div>
+					</div>
+
+					<div class="row mobile-row">
+						<div class="col s12">
+							<p class="teal-text darken-4-text"><b>5) What approximately is your income, per annum?</b></p>
+							<p><input question="4_5" name="income" type="radio" id="102" />
+								<label for="102"><span class="black-text">Between $0-40,000</span></label></p>
+							<p><input question="4_5" name="income" type="radio" id="103" />
+								<label for="103"><span class="black-text">Between $40-60,000</span></label></p>
+							<p><input question="4_5" name="income" type="radio" id="104" />
+								<label for="104"><span class="black-text">Between $60-80,000</span></label></p>
+							<p><input question="4_5" name="income" type="radio" id="105" />
+								<label for="105"><span class="black-text">Between $80-120,000</span></label></p>
+							<p><input question="4_5" name="income" type="radio" id="106" />
+								<label for="106"><span class="black-text">Over $120,000</span></label></p>
+						</div>
+					</div>
+
+					<div class="row mobile-row">
+						<div class="col s12">
+							<p class="teal-text darken-4-text"><b>6) Which employment sector best describes the work you currently do, as your primary source of income? </b></p>
+							<p><input question="4_6" name="source_income" type="radio" id="107" />
+								<label for="107"><span class="black-text">Agriculture Forestry and Fisheries</span></label></p>
+							<p><input question="4_6" name="source_income" type="radio" id="108" />
+								<label for="108"><span class="black-text">Construction</span></label></p>
+							<p><input question="4_6" name="source_income" type="radio" id="109" />
+								<label for="109"><span class="black-text">Currently do not work</span></label></p>
+							<p><input question="4_6" name="source_income" type="radio" id="110" />
+								<label for="110"><span class="black-text">Electricity and Gas</span></label></p>
+							<p><input question="4_6" name="source_income" type="radio" id="111" />
+								<label for="111"><span class="black-text">Education and Training</span></label></p>
+							<p><input question="4_6" name="source_income" type="radio" id="112" />
+								<label for="112"><span class="black-text">Financial and Insurance Services</span></label></p>
+							<p><input question="4_6" name="source_income" type="radio" id="113" />
+								<label for="113"><span class="black-text">Health Care and Social Assistance</span></label></p>
+							<p><input question="4_6" name="source_income" type="radio" id="114" />
+								<label for="114"><span class="black-text">Hospitality Accommodation and Food Services</span></label></p>
+							<p><input question="4_6" name="source_income" type="radio" id="115" />
+								<label for="115"><span class="black-text">Manufacturing</span></label></p>
+							<p><input question="4_6" name="source_income" type="radio" id="116" />
+								<label for="116"><span class="black-text">Professional Scientific and Technical</span></label></p>
+							<p><input question="4_6" name="source_income" type="radio" id="117" />
+								<label for="117"><span class="black-text">Public Administration and Safety</span></label></p>
+							<p><input question="4_6" name="source_income" type="radio" id="118" />
+								<label for="118"><span class="black-text">Retail and Customer Service</span></label></p>
+							<p><input question="4_6" name="source_income" type="radio" id="119" />
+								<label for="119"><span class="black-text">Tourism and Recreation Services</span></label></p>
+							<p><input question="4_6" name="source_income" type="radio" id="120" />
+								<label for="120"><span class="black-text">Transport Postal Warehousing and Logistics</span></label></p>
+							<p><input question="4_6" name="source_income" type="radio" id="121" />
+								<label for="121"><span class="black-text">Water and Waste Services</span></label></p>
+							<p><input question="4_6" name="source_income" type="radio" id="122" />
+								<label for="122"><span class="black-text">Wholesale Trades</span></label></p>
+							<p><input question="4_6" name="source_income" type="radio" id="123" />
+								<label for="123"><span class="black-text">Maritime</span></label></p>
+							<p><input question="4_6" name="source_income" type="radio" id="124" />
+								<label for="124"><span class="black-text">Defence forces</span></label></p>
+						</div>
+					</div>
+
+					<div class="row mobile-row">
+						<div class="col s12">
+							<p class="teal-text darken-4-text"><b>7) What is the number of years you have been living within the harbour catchment area?</b></p>
+							<p><input question="4_7" name="catchment" type="radio" id="125" />
+								<label for="125"><span class="black-text">Less than 1 year</span></label></p>
+							<p><input question="4_7" name="catchment" type="radio" id="126" />
+								<label for="126"><span class="black-text">1-2</span></label></p>
+							<p><input question="4_7" name="catchment" type="radio" id="127" />
+								<label for="127"><span class="black-text">3-5</span></label></p>
+							<p><input question="4_7" name="catchment" type="radio" id="128" />
+								<label for="128"><span class="black-text">6-10</span></label></p>
+							<p><input question="4_7" name="catchment" type="radio" id="129" />
+								<label for="129"><span class="black-text">10-15</span></label></p>
+							<p><input question="4_7" name="catchment" type="radio" id="130" />
+								<label for="130"><span class="black-text">16-20</span></label></p>
+							<p><input question="4_7" name="catchment" type="radio" id="131" />
+								<label for="131"><span class="black-text">21 or more</span></label></p>
+						</div>
+					</div>
+
+					<div class="row mobile-row">
+						<div class="col s12">
+							<p class="teal-text darken-4-text"><b>8) Which of the options best describes your ethnic or ancestral background?</b></p>
+							<p><input question="4_8" name="background" type="radio" id="132" />
+								<label for="132"><span class="black-text">British</span></label></p>
+							<p><input question="4_8" name="background" type="radio" id="133" />
+								<label for="133"><span class="black-text">European</span></label></p>
+							<p><input question="4_8" name="background" type="radio" id="134" />
+								<label for="134"><span class="black-text">South American</span></label></p>
+							<p><input question="4_8" name="background" type="radio" id="135" />
+								<label for="135"><span class="black-text">South Pacific Islander</span></label></p>
+							<p><input question="4_8" name="background" type="radio" id="136" />
+								<label for="136"><span class="black-text">Asian</span></label></p>
+							<p><input question="4_8" name="background" type="radio" id="137" />
+								<label for="137"><span class="black-text">South East Asian</span></label></p>
+							<p><input question="4_8" name="background" type="radio" id="138" />
+								<label for="138"><span class="black-text">Indian</span></label></p>
+							<p><input question="4_8" name="background" type="radio" id="139" />
+								<label for="139"><span class="black-text">Indigenous Australian</span></label></p>
+							<p><input question="4_8" name="background" type="radio" id="140" />
+								<label for="140"><span class="black-text">New Zealand</span></label></p>
+							<p><input question="4_8" name="background" type="radio" id="141" />
+								<label for="141"><span class="black-text">Maori</span></label></p>
+							<p><input question="4_8" name="background" type="radio" id="142" />
+								<label for="142"><span class="black-text">North American</span></label></p>
+							<p><input question="4_8" name="background" type="radio" id="143" />
+								<label for="143"><span class="black-text">South African </span></label></p>
+							<p><input question="4_8" name="background" type="radio" id="144" />
+								<label for="144"><span class="black-text">African</span></label></p>
+							<p><input question="4_8" name="background" type="radio" id="145" />
+								<label for="145"><span class="black-text">Australian</span></label></p>
+						</div>
+					</div>
+
+					<div class="row mobile-row">
+						<div class="col s12">
+							<p class="teal-text darken-4-text"><b>9) What is the predominant language spoken by you at home?</b></p>
+							<p><input question="4_9" name="language" type="radio" id="146" />
+								<label for="146"><span class="black-text">English</span></label></p>
+							<p><input question="4_9" name="language" type="radio" id="147" />
+								<label for="147"><span class="black-text">Mandarin</span></label></p>
+							<p><input question="4_9" name="language" type="radio" id="148" />
+								<label for="148"><span class="black-text">Italian</span></label></p>
+							<p><input question="4_9" name="language" type="radio" id="149" />
+								<label for="149"><span class="black-text">Arabic</span></label></p>
+							<p><input question="4_9" name="language" type="radio" id="150" />
+								<label for="150"><span class="black-text">Cantonese</span></label></p>
+							<p><input question="4_9" name="language" type="radio" id="151" />
+								<label for="151"><span class="black-text">Greek</span></label></p>
+							<p><input question="4_9" name="language" type="radio" id="152" />
+								<label for="152"><span class="black-text">Vietnamese</span></label></p>
+							<p><input question="4_9" name="language" type="radio" id="153" />
+								<label for="153"><span class="black-text">Spanish</span></label></p>
+							<p><input question="4_9" name="language" type="radio" id="154" />
+								<label for="154"><span class="black-text">Hindi</span></label></p>
+							<p><input question="4_9" name="language" type="radio" id="155" />
+								<label for="155"><span class="black-text">Indigenous language</span></label></p>
+							<p><input question="4_9" name="language" type="radio" id="156" />
+								<label for="156"><span class="black-text">German</span></label></p>
+							<p><input question="4_9" name="language" type="radio" id="157" />
+								<label for="157"><span class="black-text">Dutch</span></label></p>
+							<p><input question="4_9" name="language" type="radio" id="158" />
+								<label for="158"><span class="black-text">Maori</span></label></p>
+							<p><input question="4_9" name="language" type="radio" id="159" />
+								<label for="159"><span class="black-text">Punjabi</span></label></p>
+							<p><input question="4_9" name="language" type="radio" id="160" />
+								<label for="160"><span class="black-text">Other</span></label></p>
+						</div>
+					</div>
+
+					<div class="row mobile-row">
+						<div class="col s12">
+							<p class="teal-text darken-4-text"><b>10) And lastly, please tell us the suburb in which you live.</b></p>
+							<div class="input-field">
+								<input question="4_10" id="suburb" name="suburb" type="text" length="100">
+								<label for="suburb"></label>
+							</div>
+						</div>
+					</div>
+
+					<br/>
+					<br/>
+
+					<div class="row center-on-small-only">
+						<input type="submit" id="submit_button" class="waves-effect waves-light btn" value="Submit"/>
+					</div>
+
+				</form>
+
+				<form id="download_form" action="/download_csv_whp" method="POST"><input type="hidden" name="param1" value="value1"></form>
+
+				<br/>
+				<div class="row center-on-small-only">
+					{{dashboard|safe}}
+				</div>
+			</div>
+		</div>
+
+	</main>
+
+	{{footer|safe}} <!-- Dynamic footer added with python -->
+
+	<!--  Scripts-->
+	<script src="../static/js/materialize.min.js"></script>
+	<script src="../static/js/init.js"></script>
+	<!-- <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDSejHXSjpobgAvPehaxb0Lb60xuPbTflg&callback=initMap"></script> -->
+	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDSejHXSjpobgAvPehaxb0Lb60xuPbTflg"></script>
+	<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.js"></script>
+
+	<script type="text/javascript">
+		var selectedPort = "none";
+
+		var coordinates = {
+			auckland: {
+				lat:-36.8484597,
+				lng:174.76333150000005
+			},
+			hobart: {
+				lat:-42.8821377,
+				lng:147.3271949
+			},
+			sydney: {
+				lat:-33.85167466967947,
+				lng:151.078185942024
+			},
+			tauranga: {
+				lat:-37.625724547193215,
+				lng:175.94299315474927
+			}
+		};
+
+		// var marker_labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		var markers_list = [];
+		var markers_data = {};
+		var infoWindows_list = [];
+
+		var negative_other_id = 62;
+
+		$(document).ready(function() {
+			$('select').material_select();
+			$("#port_img_container").hide();
+
+			preloadImages(["../static/whp/auckland.png", "../static/whp/hobart.png", "../static/whp/sydney.png", "../static/whp/tauranga.png"]);
+
+
+			$("#select_ports").on("change", function() {
+				selectedPort = $("#select_ports option:selected").text().toLowerCase();
+				$("#port_pictures").attr("src", "../static/whp/" + selectedPort + ".png");
+				$("#port_img_container").show();
+				initMap();
+			});
+
+			$("input[type=radio][name=negative]").on("change", function() {
+				if ($(this).is($("#" + negative_other_id))) {
+					$("#negative_other_text").removeAttr("disabled").focus();
+				} else {
+
+					$("#negative_other_text").attr("disabled", "").val("").blur();
+				}
+			});
+
+			$("#suburb").on("input", function() {
+				$(this).closest('div[class^="col"]').css("border", "").removeAttr("to_focus");
+
+				var length = $(this).val().length;
+
+				if(length > 100) {
+					$(this).val($(this).val().substring(0, length - 1));
+				}
+			});
+
+			// Rules for validate form fields
+			$('#main_form').validate({
+				rules: {
+					select_ports: {
+						required: true // does not work! see workaround
+					},
+					harbour_use: {
+						required: true
+					},
+					frequency: {
+						required: true
+					},
+					supportive: {
+						required: true
+					},
+					table2_2_row1: {
+						required: true
+					},
+					table2_2_row2: {
+						required: true
+					},
+					table2_2_row3: {
+						required: true
+					},
+					table2_2_row4: {
+						required: true
+					},
+					table2_2_row5: {
+						required: true
+					},
+					table2_2_row6: {
+						required: true
+					},
+					table2_2_row7: {
+						required: true
+					},
+					table2_2_row8: {
+						required: true
+					},
+					negative: {
+						required: true
+					},
+					table2_4_row1: {
+						required: true
+					},
+					table2_4_row2: {
+						required: true
+					},
+					table2_4_row3: {
+						required: true
+					},
+					table2_4_row4: {
+						required: true
+					},
+					age: {
+						required: true
+					},
+					gender: {
+						required: true
+					},
+					education: {
+						required: true
+					},
+					income: {
+						required: true
+					},
+					source_income: {
+						required: true
+					},
+					catchment: {
+						required: true
+					},
+					background: {
+						required: true
+					},
+					language: {
+						required: true
+					},
+					suburb: {
+						required: true
+					}
+				},
+				errorElement : 'div',
+				errorPlacement: function(error, element) {
+					// var placement = $(element).data('error');
+					// if (placement) {
+					// 	$(placement).append(error)
+					// } else {
+					// 	error.insertAfter(element);
+					// }
+
+					$(element).closest('div[class^="col"]').css("border", "3px solid red").attr("to_focus", "");
+				}
+			});
+
+			$("#main_form *").on("change", function(){
+				$(this).closest('div[class^="col"]').css("border", "").removeAttr("to_focus");
+				if ($(this).attr("question") == "2_3") {
+					$("#negative_other_text").closest('div[class^="input-field"]').css("border", "").removeAttr("to_focus");
+				}
+			});
+
+			$("#negative_other_text").on("input", function() {
+				$(this).closest('div[class^="input-field"]').css("border", "").removeAttr("to_focus");
+			});
+
+			// Custon submit method
+			$('#main_form').on("submit", function(event) {
+				event.preventDefault();
+				event.stopPropagation();
+
+				// jQuery Validator didn't work with the initial select. Here's the workaround.
+				var select_check = ($("#select_ports").find(":selected").text() == "Choose your option") ? false : true;
+				if (!select_check) {
+					$("#select_ports").closest('div[class^="col"]').css("border", "3px solid red").attr("to_focus", "");
+				}
+
+				var negative_other_check = ( $("#" + negative_other_id).is(":checked") ) ? ($.trim($("#negative_other_text").val()) != "") : true;
+				// if "other" is checked, return true if the text input has some chars, false otherwise. If "other" isn't checked, return true (no need to check if text input has chars)
+
+				if (!negative_other_check) {
+					$("#negative_other_text").closest('div[class^="input-field"]').css("border", "3px solid red").attr("to_focus", "");
+					$("#negative_other_text").blur();
+				}
+
+				var at_least_one_marker = false;
+				for(i = 0; i < markers_list.length; i++) {
+					var desc = markers_data[i].reason;
+					var reason = markers_data[i].description;
+
+					if ((desc != "") && (reason != "")) {
+						at_least_one_marker = true;
+					}
+				}
+
+				if (!at_least_one_marker) {
+					$("#map").css("border", "3px solid red").attr("to_focus", "");
+				}
+
+				if($(this).valid() && select_check && negative_other_check && at_least_one_marker) {
+					var answers = {};
+
+					$("#main_form *").find("option:selected").each(function(){
+						var question = $(this).attr("question");
+
+						var text = $(this).text();
+
+						if (text != $("#select_ports option:first").text()) {
+							answers[question] = text;
+						}
+					});
+
+					$("#main_form *").find("input[type='radio']:checked").each(function(){
+						var question = $(this).attr("question");
+
+						if ((question == "2_3") && ($("#" + negative_other_id).is(":checked"))) {
+							answers[question] = $("#negative_other_text").val();
+
+						} else if ($(this).parent().is("td")) {
+							var possibilities = ["Strongly disagree", "Disagree", "Indifferent", "Agree", "Strongly agree"];
+
+							// the following is to cycle between every possibility
+							var id = $(this).attr("id");
+							var offset = (id < 63) ? 2 : 3;
+							var num_of_possibilities = possibilities.length;
+							var index = (id - offset) % num_of_possibilities;
+
+							answers[question] = possibilities[index];
+
+						} else {
+							answers[question] = $(this).next('label:first').text()
+						}
+					});
+
+					if ($.trim($("#suburb").val()) != "") {
+						var question = $("#suburb").attr("question");
+						answers[question] = $("#suburb").val();
+					}
+
+
+					answers["markers"] = [];
+
+					for(i = 0; i < markers_list.length; i++) {
+						if (i in markers_data) {
+							var desc = markers_data[i].reason;
+							var reason = markers_data[i].description;
+
+							if (desc != "" && reason != "") {
+								var marker_dict = {};
+
+								marker_dict["lat"] = markers_list[i].getPosition().lat();
+								marker_dict["lng"] = markers_list[i].getPosition().lng();
+								marker_dict["description"] = markers_data[i].reason;
+								marker_dict["reason"] = markers_data[i].description;
+
+								answers["markers"].push(marker_dict);
+							}
+						}
+					}
+
+					answers["timestamp"] = new Date($.now());
+
+					// console.log("Valid!");
+					// console.log(answers);
+
+					var data = { data: answers };
+
+					$.ajax({
+						url: '/whp_csv',
+						// data: $('#main_form').serialize(),
+						data: JSON.stringify(data),
+						dataType: "text",
+						contentType: 'application/json; charset=utf-8',
+						type: 'POST',
+						success: function(response) {
+							// $("#download_form").submit();
+							window.location.replace(response);
+						},
+						error: function(a, b, c) {
+							console.log(a, b, c);
+						}
+					});
+				} else {
+					select_first_missing();
+				}
+
+
+				// console.log($("#select_ports").find(":selected").text());
+				// console.log(flag);
+				// $("#select_ports").validate();
+
+				// $.ajax({
+				// 	url: '/newsurvey',
+				// 	data: $('#main_form').serialize(),
+				// 	type: 'POST',
+				// 	success: function(response) {
+				// 		if (response == "0") {
+				// 			survey_is_unique = false;
+				// 			#main_form_is_valid = false;
+				// 			$("#name").valid();
+				// 		} else {
+				// 			survey_is_unique = true;
+				// 			#main_form_is_valid = true;
+				// 			window.location.replace(response);
+				// 		}
+				// 	},
+				// 	error: function(a, b, c) {
+				// 		console.log(a, b, c);
+				// 	}
+				// });
+			});
+		});
+
+		function preloadImages(array) {
+			if (!preloadImages.list) {
+				preloadImages.list = [];
+			}
+			var list = preloadImages.list;
+			for (var i = 0; i < array.length; i++) {
+				var img = new Image();
+				img.onload = function() {
+					var index = list.indexOf(this);
+					if (index !== -1) {
+		                // remove image from the array once it's loaded
+		                // for memory consumption reasons
+		                list.splice(index, 1);
+		            }
+		        }
+		        list.push(img);
+		        img.src = array[i];
+		    }
+		}
+
+		function initMap() {
+			if (selectedPort == "none") {
+				$("#map").remove();
+				$("#map_placeholder").show();
+			} else {
+				$("#map").remove();
+				$("#part3").append("<div id='map'></div>");
+				$("#map_placeholder").hide();
+
+				var map_options = {
+					center: coordinates[selectedPort],
+					mapTypeId: 'hybrid'
+				};
+				var polygon_coordinates;
+
+				if (selectedPort == "auckland") {
+					map_options["zoom"] = 10;
+					map_options["minZoom"] = 10;
+
+					polygon_coordinates = [
+						new google.maps.LatLng(-36.99448,174.57914),
+						new google.maps.LatLng(-36.9433,174.52333),
+						new google.maps.LatLng(-36.8833,174.484),
+						new google.maps.LatLng(-36.82034,174.46302),
+						new google.maps.LatLng(-36.72729,174.50071),
+						new google.maps.LatLng(-36.69738,174.54725),
+						new google.maps.LatLng(-36.6926,174.59226),
+						new google.maps.LatLng(-36.69845,174.75644),
+						new google.maps.LatLng(-36.82238,174.84024),
+						new google.maps.LatLng(-36.87642,175.00305),
+						new google.maps.LatLng(-36.89419,175.00656),
+						new google.maps.LatLng(-36.99775,174.97789),
+						new google.maps.LatLng(-37.05774,174.75848),
+						new google.maps.LatLng(-37.02862,174.66299)
+					];
+
+				} else if (selectedPort == "hobart") {
+					map_options["zoom"] = 10;
+					map_options["minZoom"] = 10;
+
+					polygon_coordinates = [
+						new google.maps.LatLng(-42.66244,146.95465),
+						new google.maps.LatLng(-42.67074,146.92849),
+						new google.maps.LatLng(-42.68711,146.90783),
+						new google.maps.LatLng(-42.71176,146.88848),
+						new google.maps.LatLng(-42.74491,146.88274),
+						new google.maps.LatLng(-42.77891,146.88225),
+						new google.maps.LatLng(-42.82195,146.91883),
+						new google.maps.LatLng(-42.84923,146.98177),
+						new google.maps.LatLng(-42.84877,147.07092),
+						new google.maps.LatLng(-42.84328,147.1326),
+						new google.maps.LatLng(-42.87266,147.18981),
+						new google.maps.LatLng(-42.91308,147.20583),
+						new google.maps.LatLng(-42.94434,147.2001),
+						new google.maps.LatLng(-42.99313,147.1684),
+						new google.maps.LatLng(-43.1078,147.19512),
+						new google.maps.LatLng(-43.132,147.25105),
+						new google.maps.LatLng(-43.15117,147.4141),
+						new google.maps.LatLng(-43.07595,147.40487),
+						new google.maps.LatLng(-43.06253,147.44423),
+						new google.maps.LatLng(-43.08422,147.45063),
+						new google.maps.LatLng(-43.09148,147.51287),
+						new google.maps.LatLng(-43.04245,147.52682),
+						new google.maps.LatLng(-42.99337,147.57923),
+						new google.maps.LatLng(-42.89296,147.54786),
+						new google.maps.LatLng(-42.83672,147.57143),
+						new google.maps.LatLng(-42.77455,147.4701),
+						new google.maps.LatLng(-42.69213,147.41273),
+						new google.maps.LatLng(-42.64295,147.30042),
+						new google.maps.LatLng(-42.6527,147.20169),
+						new google.maps.LatLng(-42.66565,147.16743),
+						new google.maps.LatLng(-42.68323,147.13932),
+						new google.maps.LatLng(-42.68091,147.07994),
+						new google.maps.LatLng(-42.65653,147.03652),
+						new google.maps.LatLng(-42.65141,146.99558)
+					];
+
+				} else if (selectedPort == "sydney") {
+					map_options["zoom"] = 11;
+					map_options["minZoom"] = 11;
+
+					polygon_coordinates = [
+						new google.maps.LatLng(-33.97992,151.25942),
+						new google.maps.LatLng(-33.97693,151.21674),
+						new google.maps.LatLng(-33.97051,151.17956),
+						new google.maps.LatLng(-33.95997,151.1409),
+						new google.maps.LatLng(-33.93659,151.07318),
+						new google.maps.LatLng(-33.93653,151.03526),
+						new google.maps.LatLng(-33.92161,150.99993),
+						new google.maps.LatLng(-33.8929,150.94644),
+						new google.maps.LatLng(-33.86397,150.91224),
+						new google.maps.LatLng(-33.83575,150.85893),
+						new google.maps.LatLng(-33.80665,150.84846),
+						new google.maps.LatLng(-33.77241,150.84537),
+						new google.maps.LatLng(-33.7518,150.84262),
+						new google.maps.LatLng(-33.73347,150.84537),
+						new google.maps.LatLng(-33.71621,150.8536),
+						new google.maps.LatLng(-33.68168,150.91402),
+						new google.maps.LatLng(-33.67433,151.00189),
+						new google.maps.LatLng(-33.68297,151.06641),
+						new google.maps.LatLng(-33.69275,151.12544),
+						new google.maps.LatLng(-33.68961,151.18303),
+						new google.maps.LatLng(-33.69018,151.24878),
+						new google.maps.LatLng(-33.70161,151.30749),
+						new google.maps.LatLng(-33.72618,151.30995),
+						new google.maps.LatLng(-33.74504,151.33164),
+						new google.maps.LatLng(-33.75648,151.31048),
+						new google.maps.LatLng(-33.78621,151.30112),
+						new google.maps.LatLng(-33.80571,151.32635),
+						new google.maps.LatLng(-33.82416,151.315),
+						new google.maps.LatLng(-33.83596,151.29229),
+						new google.maps.LatLng(-33.89034,151.29221),
+						new google.maps.LatLng(-33.92724,151.27281),
+						new google.maps.LatLng(-33.96683,151.27247)
+					];
+
+				} else if (selectedPort == "tauranga") {
+					map_options["zoom"] = 10;
+					map_options["minZoom"] = 10;
+
+					polygon_coordinates = [
+						new google.maps.LatLng(-37.70192,176.3313),
+						new google.maps.LatLng(-37.79585,176.30727),
+						new google.maps.LatLng(-37.85077,176.25182),
+						new google.maps.LatLng(-37.90781,176.14831),
+						new google.maps.LatLng(-37.88465,175.99536),
+						new google.maps.LatLng(-37.84596,175.90309),
+						new google.maps.LatLng(-37.78988,175.81769),
+						new google.maps.LatLng(-37.70883,175.77321),
+						new google.maps.LatLng(-37.58416,175.68204),
+						new google.maps.LatLng(-37.541,175.67876),
+						new google.maps.LatLng(-37.51089,175.6796),
+						new google.maps.LatLng(-37.44486,175.63627),
+						new google.maps.LatLng(-37.38467,175.64024),
+						new google.maps.LatLng(-37.33844,175.63995),
+						new google.maps.LatLng(-37.30926,175.67233),
+						new google.maps.LatLng(-37.28802,175.72336),
+						new google.maps.LatLng(-37.27614,175.76224),
+						new google.maps.LatLng(-37.25674,175.81254),
+						new google.maps.LatLng(-37.27259,175.88566),
+						new google.maps.LatLng(-37.28133,175.91794),
+						new google.maps.LatLng(-37.34163,175.96051),
+						new google.maps.LatLng(-37.41387,175.98248),
+						new google.maps.LatLng(-37.53856,176.09509),
+						new google.maps.LatLng(-37.60257,176.17749),
+						new google.maps.LatLng(-37.60869,176.20633),
+						new google.maps.LatLng(-37.65356,176.25989)
+					];
+				}
+
+				var map = new google.maps.Map(document.getElementById('map'), map_options);
+
+				// Construct the polygon.
+				var port_limiter = new google.maps.Polygon({
+					paths: polygon_coordinates,
+					strokeColor: '#178ACF',
+					strokeOpacity: 0.8,
+					strokeWeight: 7,
+					fillColor: '#178ACF',
+					fillOpacity: 0.0
+				});
+
+				port_limiter.setMap(map);
+
+				google.maps.event.addListener(port_limiter, 'click', function(event) {
+					// addMarker(event.latLng, map);
+
+					var infoWindow;
+
+					if (google.maps.geometry.poly.containsLocation(event.latLng, port_limiter)) {
+						var marker = new google.maps.Marker({
+							position: event.latLng,
+							// label: marker_labels[markers_list.length % marker_labels.length],
+							map: map
+						});
+
+						markers_list.push(marker);
+
+						var marker_index = markers_list.length - 1;
+
+						markers_data[marker_index] = {
+							description: "",
+							reason: ""
+						}
+
+						var infoContent = '<div id="marker_content">'+
+							'<p><b>Reason:</b></p><div class="input-field"><input id="reason_' + marker_index + '" type="text"></div>'+
+							'<p><b>Description:</b></p><div class="input-field"><input id="description_' + marker_index + '" type="text"></div>'+
+							'<br/>'+
+							'<p><input id="save_' + marker_index + '" class="btn waves-light teal save_marker_buttons" type="button" onclick="saveMarker(' + marker_index + ');" value="Save" /></p>'+
+							'<p><a title="Click to delete marker" href="#!" onclick="deleteMarker(' + marker_index + ');">Delete marker</a><p/>'+
+							'</div>';
+
+						// var infowindow = new google.maps.InfoWindow({
+						// 	content: infoContent
+						// });
+
+						infoWindow = new google.maps.InfoWindow({
+							content: infoContent,
+							maxWidth: 300
+						});
+						infoWindows_list.push(infoWindow);
+
+
+						marker.addListener('click', function() {
+							infoWindow.open(map, marker);
+							loadMarkerData(marker_index);
+						});
+					}
+
+					infoWindow.open(map, marker);
+				});
+			}
+		}
+
+		function loadMarkerData(index) {
+			$("#description_" + index).val(markers_data[index].description);
+			$("#reason_" + index).val(markers_data[index].reason);
+		}
+
+		function saveMarker(index) {
+			var reason = $("#reason_" + index).val();
+			var desc = $("#description_" + index).val();
+			markers_data[index].reason = reason;
+			markers_data[index].description = desc;
+			infoWindows_list[index].close();
+
+			if ((reason != "") && (desc != "")) {
+				$("#map").css("border", "").removeAttr("to_focus");
+			}
+		}
+
+		function deleteMarker(index) {
+			// not really deleting them but "invalidating" insteam
+			markers_list[index].setMap(null);
+			markers_data[index].reason = "";
+			markers_data[index].description = "";
+		}
+
+		function select_first_missing() {
+			location.href = "#";
+
+			$(window).scrollTop($("div[to_focus]:first").offset().top);// - $(window).height + ($("div[to_focus]:first").height / 2));
+		}
+
+	</script>
+
+</body>
+</html>

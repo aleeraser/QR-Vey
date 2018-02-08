@@ -1,0 +1,149 @@
+Answer;Data
+1;Sydney
+1.1;I do not use the harbour in any way
+1.2;Occasionally or rarely (less than 4 to 6 visits per year)
+2.1;Agree
+2.2.table.row1;Agree
+2.2.table.row2;Indifferent
+2.2.table.row3;Agree
+2.2.table.row4;Indifferent
+2.2.table.row5;Agree
+2.2.table.row6;Agree
+2.2.table.row7;Indifferent
+2.2.table.row8;Agree
+2.3;None
+2.4.table.row1;Strongly disagree
+2.4.table.row2;Strongly disagree
+2.4.table.row3;Strongly disagree
+2.4.table.row4;Strongly agree
+4.1;18-34
+4.10;Casalecchio di Reno
+4.2;Male
+4.4;Bachelor Degree Level
+4.5;Between $0-40,000
+4.6;Currently do not work
+4.7;Less than 1 year
+4.8;European
+4.9;Italian
+markers;[{'lat': '-33.8478927665', 'lng': '151.212623119', 'reason': 'Test description', 'description': 'Test reason'}]
+timestamp;2016-12-24T18:26:09.007Z
+############;#################################################################Answer,Data
+1,Hobart
+1.1,I do not use the harbour in any way
+1.2,Occasionally or rarely (less than 4 to 6 visits per year)
+2.1,Agree
+2.2.table.row1,Agree
+2.2.table.row2,Indifferent
+2.2.table.row3,Agree
+2.2.table.row4,Indifferent
+2.2.table.row5,Agree
+2.2.table.row6,Agree
+2.2.table.row7,Indifferent
+2.2.table.row8,Agree
+2.3,None
+2.4.table.row1,Strongly disagree
+2.4.table.row2,Strongly disagree
+2.4.table.row3,Strongly disagree
+2.4.table.row4,Strongly agree
+4.1,18-34
+4.10,Casalecchio di Reno
+4.2,Male
+4.4,Bachelor Degree Level
+4.5,"Between $0-40,000"
+4.6,Currently do not work
+4.7,Less than 1 year
+4.8,European
+4.9,Italian
+markers,"[{'lat': '-42.9534072167', 'lng': '147.352194786', 'reason': 'reason1', 'description': 'marker1'}]"
+timestamp,2016-12-26T11:05:32.352Z
+#############,#################################################################
+Answer,Data
+1,Sydney
+1.1,"Property: Home or business property, either owning or renting"
+1.2,One visit per week or more
+2.1,Agree
+2.2.table.row1,Strongly disagree
+2.2.table.row2,Disagree
+2.2.table.row3,Strongly disagree
+2.2.table.row4,Strongly disagree
+2.2.table.row5,Strongly disagree
+2.2.table.row6,Disagree
+2.2.table.row7,Indifferent
+2.2.table.row8,Disagree
+2.3,Interfering with harbour structures
+2.4.table.row1,Strongly disagree
+2.4.table.row2,Disagree
+2.4.table.row3,Disagree
+2.4.table.row4,Strongly disagree
+4.1,18-34
+4.10,a
+4.2,Male
+4.4,Year 12 or equivalent
+4.5,"Between $0-40,000"
+4.6,Education and Training
+4.7,Less than 1 year
+4.8,Indian
+4.9,Greek
+markers,"[{'lat': '-33.6957801293', 'lng': '151.067504883', 'reason': 'd', 'description': 'a'}]"
+timestamp,2016-12-26T11:07:46.470Z
+#############,#################################################################
+Answer,Data
+1,Sydney
+1.1,"Property: Home or business property, either owning or renting"
+1.2,One visit per week or more
+2.1,Agree
+2.2.table.row1,Strongly disagree
+2.2.table.row2,Disagree
+2.2.table.row3,Strongly disagree
+2.2.table.row4,Strongly disagree
+2.2.table.row5,Strongly disagree
+2.2.table.row6,Disagree
+2.2.table.row7,Indifferent
+2.2.table.row8,Disagree
+2.3,Interfering with harbour structures
+2.4.table.row1,Strongly disagree
+2.4.table.row2,Disagree
+2.4.table.row3,Disagree
+2.4.table.row4,Strongly disagree
+4.1,18-34
+4.10,a
+4.2,Male
+4.4,Year 12 or equivalent
+4.5,"Between $0-40,000"
+4.6,Education and Training
+4.7,Less than 1 year
+4.8,Indian
+4.9,Greek
+markers,"[{'lat': '-33.6957801293', 'lng': '151.067504883', 'reason': 'd', 'description': 'a'}]"
+timestamp,2016-12-26T11:07:47.404Z
+#############,#################################################################
+Answer,Data
+1,Hobart
+1.1,Transport: Travel to or from work
+1.2,I live here
+2.1,Agree
+2.2.table.row1,Strongly disagree
+2.2.table.row2,Disagree
+2.2.table.row3,Indifferent
+2.2.table.row4,Indifferent
+2.2.table.row5,Disagree
+2.2.table.row6,Indifferent
+2.2.table.row7,Disagree
+2.2.table.row8,Indifferent
+2.3,Environmental impact
+2.4.table.row1,Disagree
+2.4.table.row2,Strongly disagree
+2.4.table.row3,Strongly disagree
+2.4.table.row4,Strongly disagree
+4.1,18-34
+4.10,asd
+4.2,Female
+4.4,Year 8 or below
+4.5,"Between $0-40,000"
+4.6,Currently do not work
+4.7,1-2
+4.8,South American
+4.9,English
+markers,"[{'lat': '-42.84804733', 'lng': '147.289581299', 'reason': 'd', 'description': 'a'}]"
+timestamp,2017-01-03T18:06:48.179Z
+#############,#################################################################

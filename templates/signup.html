@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+  <title>QR-VEY</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon-32x32.png') }}" sizes="32x32">
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon-16x16.png') }}" sizes="16x16">
+  <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+  <link rel="mask-icon" href="{{ url_for('static', filename='safari-pinned-tab.svg') }}" color="#5bbad5">
+  <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+  <meta name="msapplication-config" content="/static/browserconfig.xml">
+  <meta name="theme-color" content="#09180d">
+
+  <!-- CSS  -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="../static/css/materialize.custom.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="../static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+
+  <!-- jQuery CDN, with fallback-->
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script>if (!window.jQuery) { document.write('<script src="../static/js/jquery-3.0.0.min.js"><\/script>'); }</script>
+</head>
+<body>
+  <nav role="navigation">
+    <div class="nav-wrapper container">
+      {{navbar|safe}}
+      <ul class="right hide-on-med-and-down">
+        {{menu_options|safe}} <!-- Dynamic elements added with python -->
+      </ul>
+
+      <ul id="nav-mobile" class="side-nav">
+        {{menu_options|safe}} <!-- Dynamic elements added with python -->
+      </ul>
+      <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+      {{modal_about|safe}}
+    </div>
+  </nav>
+
+  <header>
+    <div class="section no-pad-bot" id="index-banner">
+      <div class="container">
+        <br/>
+        <h3 class="header center indigo-text darken-4-text">Register</h3>
+        <br/>
+        <div class="row">
+          <h5 class="header center-on-small-only col s12 light">Please fill in your info</h5>
+        </div>
+        <br/>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="section" id="form_section">
+      <div class="container">
+        <div class="row">
+          <form class="col s12 m12">
+            <div class="row mobile_row">
+              <div class="input-field col s12 m12">
+                <!-- <i class="material-icons prefix">email</i> -->
+                <input id="email" name="email" type="email" class="validate" placeholder="foo@bar.com" autofocus >
+                <label for="email">Email (will be your username as well)</label>
+              </div>
+            </div>
+            
+            <div class="row mobile_row">    
+              <div class="input-field col s12 m6">
+                <!-- <i class="material-icons prefix">vpn_key</i> -->
+                <input id="password" name="password" type="password" class="validate" >
+                <label for="password">Password</label>
+              </div>
+              <div class="input-field col s12 m6">
+                <!-- <i class="material-icons prefix">lock</i> -->
+                <input id="cpassword" name="cpassword" type="password" class="validate" >
+                <label for="password">Re-type password</label>
+              </div>
+            </div>
+            
+            <div class="row mobile_row">
+              <div class="input-field col s12 m6">
+                <input id="first_name" name="first_name" type="text" class="validate">
+                <label for="first_name">First Name</label>
+              </div>
+              <div class="input-field col s12 m6">
+                <input id="last_name" name="last_name" type="text" class="validate">
+                <label for="last_name">Last Name</label>
+              </div>
+            </div>
+
+            <div class="row mobile_row">
+              <div class="input-field col s12 m6">
+                <!-- <i class="material-icons prefix">perm_identity</i> -->
+                <select id="sex" name="sex" >
+                  <option value="1">Male</option>
+                  <option value="2">Female</option>
+                </select>
+                <label for="sex">Sex</label>
+              </div>
+              <div class="input-field col s12 m6">
+                <!-- <i class="material-icons prefix">today</i> -->
+                <input id="birthdate" name="birthdate" type="text" class="datepicker" >
+                <label for="birthdate">Birthdate</label>
+              </div>
+            </div>
+
+            <br/><br/>
+
+            <div class="row center-on-small-only">
+              <button id="submit_button" class="waves-effect waves-light btn" type="submit">Create account</button>
+            </div>
+            <br/>
+            <div class="row center-on-small-only">
+              <button id="back_button" class="waves-effect waves-light btn" type="button" onclick="location.href='/'">Back to homepage</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  {{footer|safe}} <!-- Dynamic footer added with python -->
+
+  <!--  Scripts-->
+  <script src="../static/js/materialize.min.js"></script>
+  <script src="../static/js/init.js"></script>
+  <!-- <script src="../static/js/picker.date.js"></script> -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.js"></script>
+
+  <script type="text/javascript">
+    var form_is_valid = true, email_is_free = true;
+
+    // Custom validators
+    jQuery.validator.addMethod("mustBeUnique", function(value, element) {
+      return this.optional(element) || email_is_free;
+    }, "This email address is already in use.");
+
+    jQuery.validator.addMethod("required_c", function(value, element) {
+      var result = false;
+      if ($(element).val()) {
+        result = true;
+      }
+      if ($(element).val() == "") {
+        result = false;
+      }
+      return this.optional(element) || result;
+    }, "This field is required.");
+
+    // Initialize the Select element
+    $(document).ready(function() {
+      $('#back_button').on('focus', function(){
+        window.location.href = '/';
+      })
+      $('select').material_select();
+    });
+
+    // Configure the pickdate dialog
+    $('.datepicker').pickadate({
+      selectMonths: true,
+      selectYears: 120, // can go back up to 120 years
+      max: true,  // set max to today's date
+      format: 'd mmmm yyyy'
+    });
+
+    // Rules for validate form fields
+    $('form').validate({
+      rules: {
+        email: {
+          required: true,
+          email:true,
+          maxlength: 50,
+          mustBeUnique: true
+        },
+        password: {
+          required: true,
+          maxlength: 50
+        },
+        cpassword: {
+          required: true,
+          equalTo: "#password",
+          maxlength: 50
+        },
+        sex: {
+          required: true
+        },
+        birthdate: {
+          required: true,
+          required_c: true
+        },
+        first_name: {
+          required: true,
+          maxlength: 30
+        },
+        last_name: {
+          required: true,
+          maxlength: 30
+        }
+      },
+      messages: {
+        cpassword: {
+          equalTo: "Passwords do not match."
+        }
+      },
+      errorElement : 'div',
+      errorPlacement: function(error, element) {
+        var placement = $(element).data('error');
+        if (placement) {
+          $(placement).append(error)
+        } else {
+          error.insertAfter(element);
+        }
+      }
+    });
+
+    // Whenever the focus of the input fields change, check if it's valid
+    $('form input').blur(function(){
+      if (!$(this).is('#birthdate')){
+        if ( $(this).is('#email') ) {
+          $.ajax({
+            url: '/email_in_database',
+            data: $('form').serialize(),
+            type: 'POST',
+            success: function(response) {
+              if (response == "1") {
+                email_is_free = false;
+                form_is_valid = false;
+              } else {
+                email_is_free = true;
+                form_is_valid = true;
+              }
+              $("#email").valid();
+            },
+            error: function(a, b, c) {
+              console.log(a, b, c);
+            }
+          });
+        } else {
+          if ($(this).valid()) {
+            form_is_valid = true;
+          } else {
+            form_is_valid = false;
+          }
+        }
+      }
+    });
+
+    // pickdate needed a custom validity check
+    $('#birthdate').change(function(){
+      $('#birthdate').valid();
+    });
+
+    // Custon submit method
+    $('form').on("submit", function(event) {
+      event.preventDefault();
+
+      if (form_is_valid) {
+        $.ajax({
+          url: '/signup',
+          data: $('form').serialize(),
+          type: 'POST',
+          success: function(response) {
+            if (response == "0") {
+              email_is_free = false;
+              $("#email").valid();
+            } else {
+              window.location.replace(response);
+            }
+          },
+          error: function(a, b, c) {
+            console.log(a, b, c);
+          }
+        });
+      }
+    });
+  </script>
+
+</body>
+</html>
