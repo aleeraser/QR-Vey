@@ -13,7 +13,6 @@ from flask_mysqldb import MySQL
 from MySQLdb import cursors
 import qrcode
 from weasyprint import HTML, CSS
-# for salting passwords
 from werkzeug.security import generate_password_hash, check_password_hash
 
 reload(sys)
@@ -36,7 +35,6 @@ with open('./config.json') as config_file:
 
 if "zini2/tirocinio" in os.path.dirname(os.path.abspath(__file__)):
     server = "unibo"
-# elif "/Users/alessandro/" in os.path.dirname(os.path.abspath(__file__)):
 else:
     server = "home"
 
@@ -136,78 +134,12 @@ def calculate_age(birthdate, monthIsString=False):
 
     return today.year - in_year - ((today.month, today.day) < (in_month, in_day))
 
-# TEST
-
-
-@app.route("/tFest_mobile")
-def testMobile():
-    test_dict = {"example": "example_test", 100: "example_hundred"}
-    test = {"printme": "if this get printed, we're half the way"}
-    test_list = [test_dict, test]
-    return jsonify(data=test_list)
-
-# {
-#   "data": [
-#     {
-#       "100": "example_hundred",
-#       "example": "example_test"
-#     },
-#     {
-#       "printme": "if this get printed, we're half the way"
-#     }
-#   ]
-# }
-
-
-@app.route("/appsignin&username=<email>&password=<password>")
-def appLoginAlternative(email, password):
-    if session.get("user") and session.get("origin") == "app":
-        return jsonify(data="Already logged in")
-
-    cur = mysql.connection.cursor()
-    cur.execute("SELECT hashed_password FROM registered_user WHERE email = %s;", [email])
-    hashed_password = cur.fetchone()
-
-    if hashed_password is None:
-        return jsonify(data="User not found")
-    elif check_password_hash(hashed_password[0], password):
-
-        session["user"] = email
-        session["origin"] = "app"
-
-        return jsonify(data="Logged in succesfully")
-    else:
-        return jsonify(data="Wrong passwod")
-
-# TEST
-
-# {
-#   "data": {
-#     "code" : X,
-#	  "message" : AAAA
-#   }
-# }
-
 
 @app.route("/appsignin", methods=["POST"])
 def appSignIn():
-    # if session.get("user") and session.get("origin") == "app":
-    # 	response["code"] = 1
-    # 	response["message"] = "Already logged in"
-    # 	return jsonify(data=response)
-
-    # # data = base64.b64decode(request.headers.get('Authorization'))
-
-    print "appsignin!"
-
     jsonData = json.loads(request.form["data"])
     email = base64.b64decode(jsonData["username"])
     password = base64.b64decode(jsonData["password"])
-
-    # # print request.headers
-
-    # email = data.split(":")[0]
-    # password = data.split(":")[1]
 
     cur = mysql.connection.cursor()
     cur.execute("SELECT hashed_password FROM registered_user WHERE email = %s;", [email])
@@ -227,7 +159,6 @@ def appSignIn():
         user_data = cur.fetchone()
 
         session["user"] = email
-        # session["origin"] = "app"
 
         response["code"] = 1
         response["message"] = "Logged in succesfully"
@@ -264,12 +195,6 @@ def appSignUp():
     hashed_password = generate_password_hash(password)
 
     age = calculate_age(age, monthIsString=True)
-
-    # if first_name == "":
-    # 	first_name = "NULL"
-
-    # if last_name == "":
-    # 	last_name = "NULL"
 
     cur = mysql.connection.cursor()
     cur.execute("INSERT INTO registered_user (email, hashed_password, first_name, last_name, age, sex) VALUES (%s, %s, %s, %s, %s, %s);", [email, hashed_password, first_name, last_name, age, sex])
@@ -618,17 +543,6 @@ def appAddVote(request, survey_id, answer_id):
         browser = "mobileapp"
     else:
         print "Voting from app but not sure from which os"
-
-    # if "qr-vey" in str(request.user_agent).lower():
-    # 	if "darwin" in str(request.user_agent).lower():
-    # 		platform = "iphone"
-    # 		browser = "mobileapp"
-    # 	# elif "dalvik" in str(request.user_agent).lower() or "android" in str(request.user_agent).lower():
-    # 	elif str(request.user_agent.platform).lower() == "android":
-    # 		platform = "android"
-    # 		browser = "mobileapp"
-    # 	else:
-    # 		print "Voting from app but not sure from which os"
 
     response = {}
 
