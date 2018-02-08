@@ -8,16 +8,17 @@ Pre-requisites are:
 
 - Python 2.7
 
-- Virtualenv `$ [sudo -H] pip install virtualenv`
+- Virtualenv
+  - `$ [sudo -H] pip install virtualenv`
 
 - MySQL
-        - On Mac (using [homebrew](https://brew.sh "homebrew's homepage")):
-            - `$ brew install mysql`
-            - use brew services to start/stop mysql
-                `$ brew tap homebrew/services`
-                `$ brew services start mysql`
-        - On Linux, using apt:
-            - `$ sudo apt-get install mysql-server mysql-client libmysqlclient-dev`
+  - On Mac (using [homebrew](https://brew.sh "homebrew's homepage")):
+    - `$ brew install mysql`
+    - use brew services to start/stop mysql
+      `$ brew tap homebrew/services`
+      `$ brew services start mysql`
+  - On Linux, using apt:
+    - `$ sudo apt-get install mysql-server mysql-client libmysqlclient-dev`
 
 ## Starting the server
 
