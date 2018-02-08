@@ -16,4 +16,4 @@ templates/corsica.html
 
 qrvey.pyc
 
-.server_name
+*.pid
