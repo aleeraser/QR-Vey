@@ -1,4 +1,4 @@
-# ![QR-Vey](https://github.com/aleeraser/QR-Vey/blob/master/static/img/logo.png "QR-Vey")
+# ![QR-Vey](https://github.com/aleeraser/QR-Vey/blob/master/static/img/logo_black.png "QR-Vey")
 An online platform for creating QR-code based surveys
 
 ## Dependencies
