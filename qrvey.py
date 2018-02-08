@@ -33,7 +33,7 @@ mysql = MySQL()
 with open('./config.json') as config_file:
     config = json.load(config_file)
 
-if "zini2/tirocinio" in os.path.dirname(os.path.abspath(__file__)):
+if "zini2" in os.path.dirname(os.path.abspath(__file__)):
     server = "unibo"
 else:
     server = "home"

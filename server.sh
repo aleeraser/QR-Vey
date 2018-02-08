@@ -18,9 +18,7 @@ function err {
 	exit 1
 }
 
-if [ $# -ge "2" ]; then
-    err "Wrong number of parameters"
-elif [ "$1" == "setup" ]; then
+function setup {
     echo
     echo "WARNING: pre-requisites are a working version of"
     echo "Python 2.7 and having virtualenv installed."
@@ -31,21 +29,28 @@ elif [ "$1" == "setup" ]; then
     # Press any key to continue
     read -n 1 -s -r
 
-    read -p "Please set your server name: " SERVER_NAME && echo $SERVER_NAME > "./.server_name"
-    
+    [ -f "./.server_name" ] || read -p "Please set your server name: " SERVER_NAME && echo $SERVER_NAME > "./.server_name"
 
-    virtualenv flaskenv && source ./flaskenv/bin/activate && pip install Flask flask-mysqldb gunicorn Flask-WeasyPrint qrcode pillow flask-cors pylint autopep8
-elif [ "$1" == "start" ]; then
+    virtualenv flaskenv && source ./flaskenv/bin/activate && pip install setuptools --upgrade && pip install Flask flask-mysqldb gunicorn Flask-WeasyPrint qrcode pillow flask-cors pylint autopep8 cairocffi cairosvg==1.0.22
+}
+
+if [ $# -ge "2" ]; then
+    err "Wrong number of parameters"
+elif [ "$1" == "setup" ]; then
+    setup
+else
+    [ -f "./.server_name" ] || setup
     SERVER_NAME="$(cat .server_name)"
-    source ./flaskenv/bin/activate && gunicorn qrvey:app -b 0.0.0.0:5000 -p "qrvey.$SERVER_NAME.pid" -D -w 4 && echo "Server started"
-elif [ "$1" == "restart" ]; then
-    SERVER_NAME="$(cat .server_name)"
-    source ./flaskenv/bin/activate && kill -HUP `cat qrvey.$SERVER_NAME.pid` && echo "Server restarted"
-elif [ "$1" == "stop" ]; then
-    SERVER_NAME="$(cat .server_name)"
-    source ./flaskenv/bin/activate && kill `cat qrvey.$SERVER_NAME.pid` && echo "Server stopped"
-elif [ "$1" == "debug" ]; then
-    source ./flaskenv/bin/activate && gunicorn qrvey:app -b 0.0.0.0:5000
-elif [ $# != 0 ]; then
-	err "Wrong parameter"
+
+    if [ "$1" == "start" ]; then
+        source ./flaskenv/bin/activate && gunicorn qrvey:app -b 0.0.0.0:5000 -p "qrvey.$SERVER_NAME.pid" -D -w 4 && echo "Server started"
+    elif [ "$1" == "restart" ]; then
+        source ./flaskenv/bin/activate && kill -HUP `cat qrvey.$SERVER_NAME.pid` && echo "Server restarted"
+    elif [ "$1" == "stop" ]; then
+        source ./flaskenv/bin/activate && kill `cat qrvey.$SERVER_NAME.pid` && echo "Server stopped"
+    elif [ "$1" == "debug" ]; then
+        source ./flaskenv/bin/activate && gunicorn qrvey:app -b 0.0.0.0:5000
+    elif [ $# != 0 ]; then
+        err "Wrong parameter"
+    fi
 fi
