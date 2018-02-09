@@ -1,183 +1,192 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
-  <title>QR-VEY</title>
-  <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
-  <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon-32x32.png') }}" sizes="32x32">
-  <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon-16x16.png') }}" sizes="16x16">
-  <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
-  <link rel="mask-icon" href="{{ url_for('static', filename='safari-pinned-tab.svg') }}" color="#5bbad5">
-  <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-  <meta name="msapplication-config" content="/static/browserconfig.xml">
-  <meta name="theme-color" content="#09180d">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
+    <title>QR-VEY</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon-32x32.png') }}" sizes="32x32">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon-16x16.png') }}" sizes="16x16">
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+    <link rel="mask-icon" href="{{ url_for('static', filename='safari-pinned-tab.svg') }}" color="#5bbad5">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <meta name="msapplication-config" content="/static/browserconfig.xml">
+    <meta name="theme-color" content="#09180d">
 
-  <!-- CSS  -->
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link href="../static/css/materialize.custom.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-  <link href="../static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <!-- CSS  -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="../static/css/materialize.custom.min.css" type="text/css" rel="stylesheet" media="screen,projection" />
+    <link href="../static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
 
-  <!-- jQuery CDN, with fallback-->
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-  <script>if (!window.jQuery) { document.write('<script src="../static/js/jquery-3.0.0.min.js"><\/script>'); }</script>
+    <!-- jQuery CDN, with fallback-->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script>if (!window.jQuery) { document.write('<script src="../static/js/jquery-3.0.0.min.js"><\/script>'); }</script>
 </head>
+
 <body>
-  <nav role="navigation">
-    <div class="nav-wrapper container">
-      {{navbar|safe}}
-      <ul class="right hide-on-med-and-down">
-        {{menu_options|safe}} <!-- Dynamic elements added with python -->
-      </ul>
+    <nav role="navigation">
+        <div class="nav-wrapper container">
+            {{navbar|safe}}
+            <ul class="right hide-on-med-and-down">
+                {{menu_options|safe}}
+                <!-- Dynamic elements added with python -->
+            </ul>
 
-      <ul id="nav-mobile" class="side-nav">
-        {{menu_options|safe}} <!-- Dynamic elements added with python -->
-      </ul>
-      <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
-      {{modal_about|safe}}
-    </div>
-  </nav>
-
-  <header>
-    <div class="section no-pad-bot" id="index-banner">
-      <div class="container">
-        <br/>
-        <h3 class="header center indigo-text darken-4-text">Log in</h3>
-        <br/>
-        <div class="row">
-          <h5 class="header center-on-small-only col s12 light">Enter your email and password</h5>
+            <ul id="nav-mobile" class="side-nav">
+                {{menu_options|safe}}
+                <!-- Dynamic elements added with python -->
+            </ul>
+            <a href="#" data-activates="nav-mobile" class="button-collapse">
+                <i class="material-icons">menu</i>
+            </a>
+            {{modal_about|safe}}
         </div>
-        <br/>
-      </div>
-    </div>
-  </header>
+    </nav>
 
-  <main>
-    <div class="section" id="form_section">
-      <div class="container">
-        <div class="row">
-          <form class="col s12 m12" action='/validateLogin'>
-            <div class="row mobile_row">
-              <div class="input-field col s12 m12">
-                <!-- <i class="material-icons prefix">email</i> -->
-                <input id="email" name="email" type="email" class="validate" placeholder="foo@bar.com" autofocus >
-                <label for="email" data-error="Please check your email format">Email</label>
-              </div>
+    <header>
+        <div class="section no-pad-bot" id="index-banner">
+            <div class="container">
+                <br/>
+                <h3 class="header center indigo-text darken-4-text">Log in</h3>
+                <br/>
+                <div class="row">
+                    <h5 class="header center-on-small-only col s12 light">Enter your email and password</h5>
+                </div>
+                <br/>
             </div>
-
-            <div class="row mobile_row">
-              <div class="input-field col s12 m12">
-                <!-- <i class="material-icons prefix">vpn_key</i> -->
-                <input id="password" name="password" type="password" class="validate" >
-                <label for="password">Password</label>
-              </div>
-            </div>
-
-            <br/><br/>
-
-            <div class="row center-on-small-only">
-              <button id="submit_button" class="waves-effect waves-light btn" type="submit">Log in</button>
-            </div>
-            <br/>
-            <div class="row center-on-small-only">
-              <button id="back_button" class="waves-effect waves-light btn" type="button" onclick="location.href='/'">Back to homepage</button>
-            </div>
-          </form>
         </div>
-      </div>
-    </div>
-  </main>
+    </header>
 
-  {{footer|safe}} <!-- Dynamic footer added with python -->
+    <main>
+        <div class="section" id="form_section">
+            <div class="container">
+                <div class="row">
+                    <form class="col s12 m12" action='/validateLogin'>
+                        <div class="row mobile_row">
+                            <div class="input-field col s12 m12">
+                                <!-- <i class="material-icons prefix">email</i> -->
+                                <input id="email" name="email" type="email" class="validate" placeholder="foo@bar.com" autofocus>
+                                <label for="email" data-error="Please check your email format">Email</label>
+                            </div>
+                        </div>
 
-  <!--  Scripts-->
-  <script src="../static/js/materialize.min.js"></script>
-  <script src="../static/js/init.js"></script>
-  <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.js"></script>
+                        <div class="row mobile_row">
+                            <div class="input-field col s12 m12">
+                                <!-- <i class="material-icons prefix">vpn_key</i> -->
+                                <input id="password" name="password" type="password" class="validate">
+                                <label for="password">Password</label>
+                            </div>
+                        </div>
 
-  <script type="text/javascript">
-    var email_in_database = true, password_is_valid = true;
+                        <br/>
+                        <br/>
 
-    $(document).ready(function() {
-      $('#back_button').on('focus', function(){
-        window.location.href = '/';
-      })
-    });
+                        <div class="row center-on-small-only">
+                            <button id="submit_button" class="waves-effect waves-light btn" type="submit">Log in</button>
+                        </div>
+                        <br/>
+                        <div class="row center-on-small-only">
+                            <button id="back_button" class="waves-effect waves-light btn" type="button" onclick="location.href='/'">Back to homepage</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
 
-    // Custom validators
-    jQuery.validator.addMethod("email_in_database", function(value, element) {
-      var custom_validator = false;
-      custom_validator = email_in_database;
-      return this.optional(element) || custom_validator;
-    }, "Wrong email.");
+    {{footer|safe}}
+    <!-- Dynamic footer added with python -->
 
-    jQuery.validator.addMethod("password_is_valid", function(value, element) {
-      var custom_validator = false;
-      custom_validator = password_is_valid;
-      return this.optional(element) || custom_validator;
-    }, "Wrong password.");
+    <!--  Scripts-->
+    <script src="../static/js/materialize.min.js"></script>
+    <script src="../static/js/init.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.js"></script>
 
-    // Rules for validate form fields
-    $('form').validate({
-      rules: {
-        email: {
-          required: true,
-          email:true,
-          maxlength: 50,
-          email_in_database: true
-        },
-        password: {
-          required: true,
-          maxlength: 50,
-          password_is_valid: true
-        }
-      },
-      messages: {
-        password: {
-          equalTo: "Wrong."
-        }
-      },
-      errorElement : 'div',
-      errorPlacement: function(error, element) {
-        var placement = $(element).data('error');
-        if (placement) {
-          $(placement).append(error)
-        } else {
-          error.insertAfter(element);
-        }
-      }
-    });
+    <script type="text/javascript">
+        var email_in_database = true, password_is_valid = true;
 
-    // Custon submit method
-    $('form').on("submit", function(event) {
-      event.preventDefault();
+        $(document).ready(function () {
+            $('#back_button').on('focus', function () {
+                window.location.href = '/';
+            })
+        });
 
-      $.ajax({
-        url: '/signin',
-        data: $('form').serialize(),
-        type: 'POST',
-        success: function(response) {
-          if (response == "0") {
-            email_in_database = false;
-            console.log("email");
-          } else if (response == "-1") {
-            email_in_database = true;
-            password_is_valid = false;
-            console.log("password");
-          } else {
-            email_in_database = true;
-            password_is_valid = true;
-            window.location.replace(response);
-          }
-          $("#email").valid();
-          $("#password").valid();
-        },
-        error: function(a, b, c) {
-          console.log(a, b, c);
-        }
-      });
-    });
-  </script>
+        // Custom validators
+        jQuery.validator.addMethod("email_in_database", function (value, element) {
+            var custom_validator = false;
+            custom_validator = email_in_database;
+            return this.optional(element) || custom_validator;
+        }, "Wrong email.");
+
+        jQuery.validator.addMethod("password_is_valid", function (value, element) {
+            var custom_validator = false;
+            custom_validator = password_is_valid;
+            return this.optional(element) || custom_validator;
+        }, "Wrong password.");
+
+        // Rules for validate form fields
+        $('form').validate({
+            rules: {
+                email: {
+                    required: true,
+                    email: true,
+                    maxlength: 50,
+                    email_in_database: true
+                },
+                password: {
+                    required: true,
+                    maxlength: 50,
+                    password_is_valid: true
+                }
+            },
+            messages: {
+                password: {
+                    equalTo: "Wrong."
+                }
+            },
+            errorElement: 'div',
+            errorPlacement: function (error, element) {
+                var placement = $(element).data('error');
+                if (placement) {
+                    $(placement).append(error)
+                } else {
+                    error.insertAfter(element);
+                }
+            }
+        });
+
+        // Custon submit method
+        $('form').on("submit", function (event) {
+            event.preventDefault();
+
+            $.ajax({
+                url: '/signin',
+                data: $('form').serialize(),
+                type: 'POST',
+                success: function (response) {
+                    if (response == "0") {
+                        email_in_database = false;
+                        console.log("email");
+                    } else if (response == "-1") {
+                        email_in_database = true;
+                        password_is_valid = false;
+                        console.log("password");
+                    } else {
+                        email_in_database = true;
+                        password_is_valid = true;
+                        window.location.replace(response);
+                    }
+                    $("#email").valid();
+                    $("#password").valid();
+                },
+                error: function (a, b, c) {
+                    console.log(a, b, c);
+                }
+            });
+        });
+    </script>
 
 </body>
+
 </html>

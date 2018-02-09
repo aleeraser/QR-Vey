@@ -1,18 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 </head>
 <!-- <body style="padding:3em;"> -->
+
 <body style="padding:0;margin:0;">
-	<h1 style="color:#BD1111; text-align:center;">{{survey}}</h1>
-	
-	<h3 style="color:#BD1111;">Description</h3>
-		<h5 style="font-weight:normal;">{{description}}</h5>
+    <h1 style="color:#BD1111; text-align:center;">{{survey}}</h1>
 
-		<h3 style="color:#BD1111;margin-bottom:0;">Answers & QR-CODEs</h3>
-		{{answers|safe}}
+    <h3 style="color:#BD1111;">Description</h3>
+    <h5 style="font-weight:normal;">{{description}}</h5>
 
-		<h4 style="color:#BD1111;">Submitted on {{submit_time}} by {{submit_user}}</h4>
-	{{footer|safe}}
+    <h3 style="color:#BD1111;margin-bottom:0;">Answers & QR-CODEs</h3>
+    {{answers|safe}}
+
+    <h4 style="color:#BD1111;">Submitted on {{submit_time}} by {{submit_user}}</h4>
+    {{footer|safe}}
 </body>
+
 </html>

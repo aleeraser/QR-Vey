@@ -1,80 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
-	<title>QR-VEY</title>
-	<link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
-	<link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon-32x32.png') }}" sizes="32x32">
-	<link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon-16x16.png') }}" sizes="16x16">
-	<link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
-	<link rel="mask-icon" href="{{ url_for('static', filename='safari-pinned-tab.svg') }}" color="#5bbad5">
-	<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-	<meta name="msapplication-config" content="/static/browserconfig.xml">
-	<meta name="theme-color" content="#09180d">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
+    <title>QR-VEY</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon-32x32.png') }}" sizes="32x32">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon-16x16.png') }}" sizes="16x16">
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+    <link rel="mask-icon" href="{{ url_for('static', filename='safari-pinned-tab.svg') }}" color="#5bbad5">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <meta name="msapplication-config" content="/static/browserconfig.xml">
+    <meta name="theme-color" content="#09180d">
 
-	<!-- CSS  -->
-	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	<link href="../static/css/materialize.custom.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-	<link href="../static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <!-- CSS  -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="../static/css/materialize.custom.min.css" type="text/css" rel="stylesheet" media="screen,projection" />
+    <link href="../static/css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
 
-	<!-- jQuery CDN, with fallback-->
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-	<script>if (!window.jQuery) { document.write('<script src="../static/js/jquery-3.0.0.min.js"><\/script>'); }</script>
+    <!-- jQuery CDN, with fallback-->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script>if (!window.jQuery) { document.write('<script src="../static/js/jquery-3.0.0.min.js"><\/script>'); }</script>
 </head>
+
 <body>
-	<nav role="navigation">
-		<div class="nav-wrapper container">
-			{{navbar|safe}}
-			<ul class="right hide-on-med-and-down">
-				{{menu_options|safe}} <!-- Dynamic elements added with python -->
-			</ul>
+    <nav role="navigation">
+        <div class="nav-wrapper container">
+            {{navbar|safe}}
+            <ul class="right hide-on-med-and-down">
+                {{menu_options|safe}}
+                <!-- Dynamic elements added with python -->
+            </ul>
 
-			<ul id="nav-mobile" class="side-nav">
-				{{menu_options|safe}} <!-- Dynamic elements added with python -->
-			</ul>
-			<a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
-			{{modal_about|safe}}
-		</div>
-	</nav>
+            <ul id="nav-mobile" class="side-nav">
+                {{menu_options|safe}}
+                <!-- Dynamic elements added with python -->
+            </ul>
+            <a href="#" data-activates="nav-mobile" class="button-collapse">
+                <i class="material-icons">menu</i>
+            </a>
+            {{modal_about|safe}}
+        </div>
+    </nav>
 
-	<header>
-		<div class="section no-pad-bot" id="index-banner">
-			<div class="container">
-				<br/>
-				<h3 class="header center indigo-text darken-4-text">New survey</h3>
-				<br/>
-			</div>
-		</div>
-	</header>
+    <header>
+        <div class="section no-pad-bot" id="index-banner">
+            <div class="container">
+                <br/>
+                <h3 class="header center indigo-text darken-4-text">New survey</h3>
+                <br/>
+            </div>
+        </div>
+    </header>
 
-	<main>
-		<div class="section" id="form_section">
-			<div class="container">
-				<div class="row">
-					<form class="col s12 m12">
+    <main>
+        <div class="section" id="form_section">
+            <div class="container">
+                <div class="row">
+                    <form class="col s12 m12">
 
-						<div class="row mobile_row">
-							<div class="input-field col s12">
-								<!-- <i class="material-icons prefix">email</i> -->
-								<input id="name" name="name" type="text" length="100" class="validate" autofocus >
-								<label for="name">Survey title</label>
-							</div>
-						</div>
+                        <div class="row mobile_row">
+                            <div class="input-field col s12">
+                                <!-- <i class="material-icons prefix">email</i> -->
+                                <input id="name" name="name" type="text" length="100" class="validate" autofocus>
+                                <label for="name">Survey title</label>
+                            </div>
+                        </div>
 
-						<div class="row mobile_row">    
-							<div class="input-field col s12">
-								<!-- <i class="material-icons prefix">vpn_key</i> -->
-								<!-- <input id="description" name="description" type="text" class="validate" > -->
-								<textarea id="description" name="description" type="text" class="materialize-textarea validate"></textarea>
-								<label for="description">Longer description</label>
-							</div>
-						</div>
+                        <div class="row mobile_row">
+                            <div class="input-field col s12">
+                                <!-- <i class="material-icons prefix">vpn_key</i> -->
+                                <!-- <input id="description" name="description" type="text" class="validate" > -->
+                                <textarea id="description" name="description" type="text" class="materialize-textarea validate"></textarea>
+                                <label for="description">Longer description</label>
+                            </div>
+                        </div>
 
-						<input id="counter" type="text" name="counter"></input>
+                        <input id="counter" type="text" name="counter"></input>
 
-						<div id="answers_div">
-							<!-- <div id="div_answer_######################" class="row mobile_row">
+                        <div id="answers_div">
+                            <!-- <div id="div_answer_######################" class="row mobile_row">
 								<div class="input-field col s10">
 									<input id="answer#######################" name="answer" type="text" class="validate answer">
 									<label for="answer#######################">Answer########################</label>
@@ -84,229 +90,232 @@
 								</div>
 							</div>
 						</div> -->
-					</div>
+                        </div>
 
 
-					<div id="add_answer_div" class="row center-on-small-only">
-						<br/>
-						<button id="add_answer" class="waves-effect waves-light btn" type="button">Add answer</button>
-					</div>
+                        <div id="add_answer_div" class="row center-on-small-only">
+                            <br/>
+                            <button id="add_answer" class="waves-effect waves-light btn" type="button">Add answer</button>
+                        </div>
 
-					<br/><br/>
+                        <br/>
+                        <br/>
 
-					<div class="row center-on-small-only">
-						<button id="submit_button" class="waves-effect waves-light btn" type="submit">Create survey</button>
-					</div>
-					<br/>
-					<div class="row center-on-small-only">
-						<button id="back_button_dashboard" class="waves-effect waves-light btn" type="button" onclick="location.href='/userhome'">Back to dashboard</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-</main>
+                        <div class="row center-on-small-only">
+                            <button id="submit_button" class="waves-effect waves-light btn" type="submit">Create survey</button>
+                        </div>
+                        <br/>
+                        <div class="row center-on-small-only">
+                            <button id="back_button_dashboard" class="waves-effect waves-light btn" type="button" onclick="location.href='/userhome'">Back to dashboard</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
 
 
-{{footer|safe}} <!-- Dynamic footer added with python -->
+    {{footer|safe}}
+    <!-- Dynamic footer added with python -->
 
-<!--  Scripts-->
-<script src="../static/js/materialize.min.js"></script>
-<script src="../static/js/init.js"></script>
-<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.js"></script>
+    <!--  Scripts-->
+    <script src="../static/js/materialize.min.js"></script>
+    <script src="../static/js/init.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.js"></script>
 
-<script type="text/javascript">
-	var i = 0;
-	var form_is_valid = false, survey_is_unique = true, delete_enabled = true, answer_is_unique = true;
-	const min_answers = 1;
+    <script type="text/javascript">
+        var i = 0;
+        var form_is_valid = false, survey_is_unique = true, delete_enabled = true, answer_is_unique = true;
+        const min_answers = 1;
 
-	$(document).ready(function(){
-		$('#back_button').on('focus', function(){
-			window.location.href = '/';
-		})
-		
-		$('#add_answer').click();
-			//$('#add_answer').click();
-		});
+        $(document).ready(function () {
+            $('#back_button').on('focus', function () {
+                window.location.href = '/';
+            })
 
-		// Custom validators
-		jQuery.validator.addMethod("mustBeUnique", function(value, element) {
-			return this.optional(element) || survey_is_unique;
-		}, "You already have a survey with this name.");
+            $('#add_answer').click();
+            //$('#add_answer').click();
+        });
 
-		jQuery.validator.addMethod("notDuplicated", function(value, element) {
-			checkDuplicates();
-			return this.optional(element) || answer_is_unique;
-		}, "This answer is duplicated.");
+        // Custom validators
+        jQuery.validator.addMethod("mustBeUnique", function (value, element) {
+            return this.optional(element) || survey_is_unique;
+        }, "You already have a survey with this name.");
 
-		$('#back_button_dashboard').on('focus', function(){
-			window.location.href = '/userhome';
-		});
+        jQuery.validator.addMethod("notDuplicated", function (value, element) {
+            checkDuplicates();
+            return this.optional(element) || answer_is_unique;
+        }, "This answer is duplicated.");
 
-		function checkDeleteButtonsState() {
-			$('#answers_div button.delete_answer').each(function(){
-				if ((i == min_answers) && (delete_enabled)) {
-					$(this).addClass('disabled').prop("disabled", true);
-				} else if ((i == (min_answers+1)) && (!delete_enabled)) {
-					$(this).removeClass('disabled').prop("disabled", false);
-				}
-			});
-			delete_enabled = !delete_enabled;
-		}
+        $('#back_button_dashboard').on('focus', function () {
+            window.location.href = '/userhome';
+        });
 
-		function checkDuplicates() {
-			var k = 1, counter = 0, n = 0;
-			for (k=1; k<=i; k++) {
-				var ans = $('#answer_' + k);
-				var ans_txt = ans.val();
-				if (ans_txt != "") {
-					$('#answers_div .answer').each(function(){
-						if (! $(this).is(ans) ) {
-							var str_cmp = $(this).val();
-							n = ans_txt.localeCompare(str_cmp);
-							if (n == 0) {
-								counter++;
-							}
-						}
-					});
-				}
-			}
+        function checkDeleteButtonsState() {
+            $('#answers_div button.delete_answer').each(function () {
+                if ((i == min_answers) && (delete_enabled)) {
+                    $(this).addClass('disabled').prop("disabled", true);
+                } else if ((i == (min_answers + 1)) && (!delete_enabled)) {
+                    $(this).removeClass('disabled').prop("disabled", false);
+                }
+            });
+            delete_enabled = !delete_enabled;
+        }
 
-			if (counter > 0) {
-				answer_is_unique = false;
-			} else {
-				answer_is_unique = true;
-			}
-		}
+        function checkDuplicates() {
+            var k = 1, counter = 0, n = 0;
+            for (k = 1; k <= i; k++) {
+                var ans = $('#answer_' + k);
+                var ans_txt = ans.val();
+                if (ans_txt != "") {
+                    $('#answers_div .answer').each(function () {
+                        if (!$(this).is(ans)) {
+                            var str_cmp = $(this).val();
+                            n = ans_txt.localeCompare(str_cmp);
+                            if (n == 0) {
+                                counter++;
+                            }
+                        }
+                    });
+                }
+            }
 
-		$('#add_answer').on('click', function() {
-			i++;
-			var new_answer = '<div id="div_answer_' + i + '" class="row mobile_row answer_row"><div class="input-field col s8 m10"><input id="answer_' + i + '" name="answer_' + i + '" type="text" length="100" class="validate answer"><label for="answer_' + i + '">Answer ' + i + '</label></div><div class="input-field col s2"><button id="delete_answer_' + i + '" type="button" class="waves-effect waves-light btn delete_answer">X</button></div></div>';
-			$('#answers_div').append(new_answer);
+            if (counter > 0) {
+                answer_is_unique = false;
+            } else {
+                answer_is_unique = true;
+            }
+        }
 
-			// This should add a character counter to a dynamically added element, but it doesn't.
-			// I don't care enough to spend time on this.
-			$("answer_" + i).characterCounter();
-			$("#counter").val(i);
+        $('#add_answer').on('click', function () {
+            i++;
+            var new_answer = '<div id="div_answer_' + i + '" class="row mobile_row answer_row"><div class="input-field col s8 m10"><input id="answer_' + i + '" name="answer_' + i + '" type="text" length="100" class="validate answer"><label for="answer_' + i + '">Answer ' + i + '</label></div><div class="input-field col s2"><button id="delete_answer_' + i + '" type="button" class="waves-effect waves-light btn delete_answer">X</button></div></div>';
+            $('#answers_div').append(new_answer);
 
-			$("#answer_" + i).rules("add", {
-				required: true,
-				maxlength: 100,
-				notDuplicated: true
-			});
+            // This should add a character counter to a dynamically added element, but it doesn't.
+            // I don't care enough to spend time on this.
+            $("answer_" + i).characterCounter();
+            $("#counter").val(i);
 
-			checkDeleteButtonsState()
-		});
+            $("#answer_" + i).rules("add", {
+                required: true,
+                maxlength: 100,
+                notDuplicated: true
+            });
 
-		$('#answers_div').on('click', '.delete_answer', function() {
-			var answer_num = $(this).attr('id').split("_")[2];
-			$("#div_answer_" + answer_num).remove();
-			for (k = parseInt(answer_num) + 1; k <= i; k++) {
-				$("#div_answer_" + k + " label").html("Answer " + (k-1));
-				$("#div_answer_" + k + " label").attr('for', "answer_" + (k-1));
-				$("#answer_" + k).attr('name', "answer_" + (k-1));
-				$("#answer_" + k).attr('id', "answer_" + (k-1));
-				$("#delete_answer_" + k).attr('id', "delete_answer_" + (k-1));
-				$("#div_answer_" + k).attr('id', "div_answer_" + (k-1));
-			}
+            checkDeleteButtonsState()
+        });
 
-			i--;
-			$("#counter").val(i);
-			checkDeleteButtonsState();
-		});
+        $('#answers_div').on('click', '.delete_answer', function () {
+            var answer_num = $(this).attr('id').split("_")[2];
+            $("#div_answer_" + answer_num).remove();
+            for (k = parseInt(answer_num) + 1; k <= i; k++) {
+                $("#div_answer_" + k + " label").html("Answer " + (k - 1));
+                $("#div_answer_" + k + " label").attr('for', "answer_" + (k - 1));
+                $("#answer_" + k).attr('name', "answer_" + (k - 1));
+                $("#answer_" + k).attr('id', "answer_" + (k - 1));
+                $("#delete_answer_" + k).attr('id', "delete_answer_" + (k - 1));
+                $("#div_answer_" + k).attr('id', "div_answer_" + (k - 1));
+            }
 
-		// Rules for validate form fields
-		$('form').validate({
-			rules: {
-				name: {
-					required: true,
-					maxlength: 100,
-					mustBeUnique: true
-				},
-				description: {
-					required: true,
-					maxlength: 65534
-				}
-			},
-			errorElement : 'div',
-			errorPlacement: function(error, element) {
-				var placement = $(element).data('error');
-				if (placement) {
-					$(placement).append(error)
-				} else {
-					error.insertAfter(element);
-				}
-			}
-		});
+            i--;
+            $("#counter").val(i);
+            checkDeleteButtonsState();
+        });
 
-		$('form .validate').blur(function(){
-			if ($(this).is('#name')) {
-				$.ajax({
-					url: '/survey_in_database',
-					data: $('form').serialize(),
-					type: 'POST',
-					success: function(response) {
-						if (response == "1") {
-							survey_is_unique = false;
-							form_is_valid = false;
-						} else {
-							survey_is_unique = true;
-							form_is_valid = true;
-						}
-						$("#name").valid();
-					},
-					error: function(a, b, c) {
-						console.log(a, b, c);
-					}
-				});
-			} else if ($(this).valid()) {
-				form_is_valid = true;
-			} else {
-				form_is_valid = false;
-			}
-			if (!form_is_valid) {
-				return;
-			}
-		});
+        // Rules for validate form fields
+        $('form').validate({
+            rules: {
+                name: {
+                    required: true,
+                    maxlength: 100,
+                    mustBeUnique: true
+                },
+                description: {
+                    required: true,
+                    maxlength: 65534
+                }
+            },
+            errorElement: 'div',
+            errorPlacement: function (error, element) {
+                var placement = $(element).data('error');
+                if (placement) {
+                    $(placement).append(error)
+                } else {
+                    error.insertAfter(element);
+                }
+            }
+        });
 
-		// Custon submit method
-		$('form').on("submit", function(event) {
-			event.preventDefault();
+        $('form .validate').blur(function () {
+            if ($(this).is('#name')) {
+                $.ajax({
+                    url: '/survey_in_database',
+                    data: $('form').serialize(),
+                    type: 'POST',
+                    success: function (response) {
+                        if (response == "1") {
+                            survey_is_unique = false;
+                            form_is_valid = false;
+                        } else {
+                            survey_is_unique = true;
+                            form_is_valid = true;
+                        }
+                        $("#name").valid();
+                    },
+                    error: function (a, b, c) {
+                        console.log(a, b, c);
+                    }
+                });
+            } else if ($(this).valid()) {
+                form_is_valid = true;
+            } else {
+                form_is_valid = false;
+            }
+            if (!form_is_valid) {
+                return;
+            }
+        });
 
-			$('form .validate').each(function(){
-				if ($(this).valid()) {
-					form_is_valid = true;
-				} else {
-					form_is_valid = false;
-					return;
-				}
-			});
+        // Custon submit method
+        $('form').on("submit", function (event) {
+            event.preventDefault();
 
-			if (form_is_valid) {
-				$.ajax({
-					url: '/newsurvey',
-					data: $('form').serialize(),
-					type: 'POST',
-					success: function(response) {
-						if (response == "0") {
-							survey_is_unique = false;
-							form_is_valid = false;
-							$("#name").valid();
-						} else {
-							survey_is_unique = true;
-							form_is_valid = true;
-							window.location.replace(response);
-						}
-					},
-					error: function(a, b, c) {
-						console.log(a, b, c);
-					}
-				});
-			}
-		});
-	</script>
+            $('form .validate').each(function () {
+                if ($(this).valid()) {
+                    form_is_valid = true;
+                } else {
+                    form_is_valid = false;
+                    return;
+                }
+            });
+
+            if (form_is_valid) {
+                $.ajax({
+                    url: '/newsurvey',
+                    data: $('form').serialize(),
+                    type: 'POST',
+                    success: function (response) {
+                        if (response == "0") {
+                            survey_is_unique = false;
+                            form_is_valid = false;
+                            $("#name").valid();
+                        } else {
+                            survey_is_unique = true;
+                            form_is_valid = true;
+                            window.location.replace(response);
+                        }
+                    },
+                    error: function (a, b, c) {
+                        console.log(a, b, c);
+                    }
+                });
+            }
+        });
+    </script>
 
 </body>
+
 </html>
 
 
