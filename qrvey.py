@@ -55,7 +55,51 @@ options = {
     "account": "<li><a href='/userhome'>Account</a></li>"
 }
 
-navbar = "<div id='logo-wrapper'><a id='logo-container' href='/' class='brand-logo'><img src='../static/img/logo.png' alt='logo'></a></div>"
+page_head = """<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
+  <title>QR-Vey</title>
+
+  <!-- Favicon declarations -->
+  <link rel='apple-touch-icon' sizes='57x57' href='/static/img/favicons/apple-touch-icon-57x57.png'>
+  <link rel='apple-touch-icon' sizes='60x60' href='/static/img/favicons/apple-touch-icon-60x60.png'>
+  <link rel='apple-touch-icon' sizes='72x72' href='/static/img/favicons/apple-touch-icon-72x72.png'>
+  <link rel='apple-touch-icon' sizes='76x76' href='/static/img/favicons/apple-touch-icon-76x76.png'>
+  <link rel='apple-touch-icon' sizes='114x114' href='/static/img/favicons/apple-touch-icon-114x114.png'>
+  <link rel='apple-touch-icon' sizes='120x120' href='/static/img/favicons/apple-touch-icon-120x120.png'>
+  <link rel='apple-touch-icon' sizes='144x144' href='/static/img/favicons/apple-touch-icon-144x144.png'>
+  <link rel='apple-touch-icon' sizes='152x152' href='/static/img/favicons/apple-touch-icon-152x152.png'>
+  <link rel='apple-touch-icon' sizes='180x180' href='/static/img/favicons/apple-touch-icon-180x180.png'>
+  <link rel='icon' type='image/png' sizes='32x32' href='/static/img/favicons/favicon-32x32.png'>
+  <link rel='icon' type='image/png' sizes='194x194' href='/static/img/favicons/favicon-194x194.png'>
+  <link rel='icon' type='image/png' sizes='192x192' href='/static/img/favicons/android-chrome-192x192.png'>
+  <link rel='icon' type='image/png' sizes='16x16' href='/static/img/favicons/favicon-16x16.png'>
+  <link rel='manifest' href='/static/img/favicons/site.webmanifest'>
+  <link rel='mask-icon' href='/static/img/favicons/safari-pinned-tab.svg' color='#09380d'>
+  <link rel='shortcut icon' href='/static/img/favicons/favicon.ico'>
+  <!-- <link rel='shortcut icon' href='{{ url_for('static', filename='img/favicons/favicon.ico') }}'> -->
+  <meta name='msapplication-TileColor' content='#09380d'>
+  <meta name='msapplication-TileImage' content='/static/img/favicons/mstile-144x144.png'>
+  <meta name='msapplication-config' content='/static/img/favicons/browserconfig.xml'>
+  <meta name='theme-color' content='#09380d'>
+
+  <!-- CSS -->
+  <link href='/static/css/googleapis_material_icons.css' rel='stylesheet'>
+  <link href='/static/css/materialize.custom.css' type='text/css' rel='stylesheet' media='screen,projection' />
+  <link href='/static/css/style.css' type='text/css' rel='stylesheet' media='screen,projection' />
+
+  <!-- Materialize icons include -->
+  <!-- <link href='/static/css/googleapis_material_icons.css' rel='stylesheet'> -->
+
+  <!-- jQuery -->
+  <script src='/static/js/jquery-3.0.0.min.js'></script>
+
+  <!-- jQuery UI -->
+  <script src='/static/js/jquery_ui_1.12.1.min.js'></script>
+  
+  <!-- jQuery validate -->
+  <script src='/static/js/jquery_validate_1.15.0.min.js'></script>"""
+
+navbar = "<div id='logo-wrapper'><a id='logo-container' href='/' class='brand-logo'><img src='../static/img/logo/logo.png' alt='logo'></a></div>"
 
 modal_about = "<div id='modal_about' class='modal teal darken-5 white-text'><div class='modal-content'><h4>About</h4><p>The QR-VEY platform was developed by <a href='mailto:alessandro.zini3@studio.unibo.it?Subject=About QR-VEY' target='_top'>Alessandro Zini</a> as an internship at the <a href='http://www.unibo.it/' target='_blank'>University of Bologna</a>.</p></div></div>"
 
@@ -659,7 +703,7 @@ def signUp():
             return redirect("/userhome")
 
         menu_options = options["home"] + options["login"] + options["about"]
-        return render_template("signup.html", navbar=navbar, modal_about=modal_about, menu_options=menu_options, footer=footer)
+        return render_template("signup.html", page_head=page_head, navbar=navbar, modal_about=modal_about, menu_options=menu_options, footer=footer)
 
 
 @app.route("/signin", methods=["GET", "POST"])
@@ -688,7 +732,7 @@ def signIn():
             return redirect("/userhome")
 
         menu_options = options["home"] + options["register"] + options["about"]
-        return render_template("signin.html", navbar=navbar, modal_about=modal_about, menu_options=menu_options, footer=footer)
+        return render_template("signin.html", page_head=page_head, navbar=navbar, modal_about=modal_about, menu_options=menu_options, footer=footer)
 
 
 @app.route("/userhome")
@@ -744,7 +788,7 @@ def userHome():
                                 <li>Answers received: """ + str(n_answers_received) + """</li>
                                 <li>Answers given: """ + str(n_answered_surveys[0]) + "</li></ul>"
 
-            return render_template("userhome.html", navbar=navbar, modal_about=modal_about, menu_options=menu_options, user=name[0], active_surveys="No active surveys yet!", surveys_stats=surveys_stats, footer=footer)
+            return render_template("userhome.html", page_head=page_head, navbar=navbar, modal_about=modal_about, menu_options=menu_options, user=name[0], active_surveys="No active surveys yet!", surveys_stats=surveys_stats, footer=footer)
         else:
             survey_list = ""
             for survey in survey_info:
@@ -758,7 +802,7 @@ def userHome():
                                 <li>Answers received: """ + str(n_answers_received) + """</li>
                                 <li>Answers given: """ + str(n_answered_surveys[0]) + "</li></ul>"
 
-            return render_template("userhome.html", navbar=navbar, modal_about=modal_about, menu_options=menu_options, user=name[0], active_surveys=active_surveys, surveys_stats=surveys_stats, footer=footer)
+            return render_template("userhome.html", page_head=page_head, navbar=navbar, modal_about=modal_about, menu_options=menu_options, user=name[0], active_surveys=active_surveys, surveys_stats=surveys_stats, footer=footer)
 
 
 @app.route("/survey_in_database", methods=["POST"])
@@ -828,7 +872,7 @@ def newSurvey():
     else:
         menu_options = options["account"] + \
             options["logout"] + options["about"]
-        return render_template("newsurvey.html", navbar=navbar, modal_about=modal_about, menu_options=menu_options, footer=footer)
+        return render_template("newsurvey.html", page_head=page_head, navbar=navbar, modal_about=modal_about, menu_options=menu_options, footer=footer)
 
 
 @app.route("/survey_<int:survey_id>")
@@ -884,7 +928,7 @@ def showSurvey(survey_id):
     show_charts = "/stats_" + str(survey_id)
     csv_url = "/csv_" + str(survey_id)
 
-    return render_template("showsurvey.html", navbar=navbar, modal_about=modal_about, menu_options=menu_options, survey=survey_info["name"], description=survey_info["description"], submit_time=survey_info["submit_time"], download_pdf=download_pdf, show_charts=show_charts, answers=answers, csv_url=csv_url, delete_survey=delete_survey, footer=footer)
+    return render_template("showsurvey.html", page_head=page_head, navbar=navbar, modal_about=modal_about, menu_options=menu_options, survey=survey_info["name"], description=survey_info["description"], submit_time=survey_info["submit_time"], download_pdf=download_pdf, show_charts=show_charts, answers=answers, csv_url=csv_url, delete_survey=delete_survey, footer=footer)
 
 
 @app.route("/addvote&survey_<int:survey_id>&answer_<int:answer_id>", methods=["GET", "POST"])
@@ -982,12 +1026,12 @@ def vote():
         menu_options = options["account"] + \
             options["logout"] + options["about"]
 
-        return render_template("vote.html", navbar=navbar, modal_about=modal_about, menu_options=menu_options, successful_message=successful_message, footer=footer)
+        return render_template("vote.html", page_head=page_head, navbar=navbar, modal_about=modal_about, menu_options=menu_options, successful_message=successful_message, footer=footer)
 
     successful_message = "To help gathering statistics for the survey, please <br/><br/><a id='register-button' class='btn waves-effect waves-light orange' href='/signup'>Create an account</a><br/><br/>or <a href='/signin'>Log in</a> if you already have one"
     menu_options = options["home"] + options["register"] + \
         options["login"] + options["about"]
-    return render_template("vote.html", navbar=navbar, modal_about=modal_about, menu_options=menu_options, successful_message=successful_message, footer=footer)
+    return render_template("vote.html", page_head=page_head, navbar=navbar, modal_about=modal_about, menu_options=menu_options, successful_message=successful_message, footer=footer)
 
 
 @app.route("/stats_<int:survey_id>")
@@ -1007,7 +1051,7 @@ def showStats(survey_id):
     menu_options = options["account"] + options["logout"] + options["about"]
     survey_url = "/survey_" + str(survey_id)
 
-    return render_template("showstats.html", navbar=navbar, modal_about=modal_about, menu_options=menu_options, survey=survey_name, survey_url=survey_url, footer=footer)
+    return render_template("showstats.html", page_head=page_head, navbar=navbar, modal_about=modal_about, menu_options=menu_options, survey=survey_name, survey_url=survey_url, footer=footer)
 
 
 @app.route("/pdf_<int:survey_id>")
@@ -1337,7 +1381,7 @@ def internalServerError(errcode):
 
     menu_options = options["home"] + options["about"]
 
-    return render_template("error.html", navbar=navbar, modal_about=modal_about, menu_options=menu_options, error_message=error_message, footer=footer)
+    return render_template("error.html", page_head=page_head, navbar=navbar, modal_about=modal_about, menu_options=menu_options, error_message=error_message, footer=footer)
 
 
 @app.route("/error")
@@ -1351,12 +1395,12 @@ def error(error_message=""):
 
     menu_options = options["home"] + options["about"]
 
-    return render_template("error.html", navbar=navbar, modal_about=modal_about, menu_options=menu_options, error_message=error_message, footer=footer)
+    return render_template("error.html", page_head=page_head, navbar=navbar, modal_about=modal_about, menu_options=menu_options, error_message=error_message, footer=footer)
 
 
 def basicTemplate(message, menu_options):
     # error.html is used as a template, since it just provide a page with an header used to display a (originally just error) message
-    return render_template("error.html", navbar=navbar, modal_about=modal_about, menu_options=menu_options, error_message=message, footer=footer)
+    return render_template("error.html", page_head=page_head, navbar=navbar, modal_about=modal_about, menu_options=menu_options, error_message=message, footer=footer)
 
 
 @app.route("/")
@@ -1370,7 +1414,7 @@ def main():
             options["login"] + options["about"]
         homepage_index = "<a id='register-button' class='btn-large waves-effect waves-light orange'>Create an account</a><br/><br/>or <a href='/signin'>Log in</a> if you already have one"
 
-    return render_template("index.html", navbar=navbar, modal_about=modal_about, menu_options=menu_options, homepage_index=homepage_index, footer=footer)
+    return render_template("index.html", page_head=page_head, navbar=navbar, modal_about=modal_about, menu_options=menu_options, homepage_index=homepage_index, footer=footer)
 
 @app.route("/whp")
 def whp():
@@ -1383,7 +1427,7 @@ def whp():
             options["register"] + options["about"]
         dashboard = ''
 
-    return render_template("whp.html", navbar=navbar, modal_about=modal_about, menu_options=menu_options, dashboard=dashboard, footer=footer)
+    return render_template("whp.html", page_head=page_head, navbar=navbar, modal_about=modal_about, menu_options=menu_options, dashboard=dashboard, footer=footer)
 
 
 @app.route("/whp_csv", methods=["POST"])
