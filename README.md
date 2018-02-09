@@ -1,4 +1,4 @@
-# ![QR-Vey](static/img/logo_black.png?raw=true "QR-Vey")
+# ![QR-Vey](static/img/logo/logo_black.png?raw=true "QR-Vey")
 
 An online platform for creating QR-code based surveys
 
