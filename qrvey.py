@@ -84,7 +84,7 @@ page_head = """<meta http-equiv="Content-Type" content="text/html; charset=UTF-8
 
   <!-- CSS -->
   <link href='/static/css/googleapis_material_icons.css' rel='stylesheet'>
-  <link href='/static/css/materialize.custom.css' type='text/css' rel='stylesheet' media='screen,projection' />
+  <link href='/static/css/materialize.custom.min.css' type='text/css' rel='stylesheet' media='screen,projection' />
   <link href='/static/css/style.css' type='text/css' rel='stylesheet' media='screen,projection' />
 
   <!-- Materialize icons include -->
