@@ -3,6 +3,9 @@
 flaskenv/
 
 config.json
+static/csv/*
+static/pdf/*
+static/img/qrcodes/*
 
 commands
 
