@@ -50,7 +50,7 @@ else
             echo "A process associated with '$SERVER_NAME' is already running."
             exit 0
         fi
-        source ./flaskenv/bin/activate && gunicorn qrvey:app -b 0.0.0.0:5000 -p "qrvey.$SERVER_NAME.pid" -D -w 4 && echo "Server started"
+        source ./flaskenv/bin/activate && gunicorn qrvey:app -b 0.0.0.0:5000 -p "qrvey.$SERVER_NAME.pid" -D && echo "Server started"
     elif [ "$1" == "restart" ]; then
         source ./flaskenv/bin/activate && kill -HUP `cat qrvey.$SERVER_NAME.pid` && echo "Server restarted"
     elif [ "$1" == "stop" ]; then
