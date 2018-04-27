@@ -29,7 +29,8 @@ function setup {
     # Press any key to continue
     read -n 1 -s -r
 
-    virtualenv flaskenv && source ./flaskenv/bin/activate && pip install setuptools --upgrade && pip install Flask flask-mysqldb gunicorn Flask-WeasyPrint qrcode pillow flask-cors pylint autopep8 cairocffi cairosvg==1.0.22
+    # virtualenv flaskenv && source ./flaskenv/bin/activate && pip install setuptools --upgrade && pip install Flask flask-mysqldb gunicorn Flask-WeasyPrint qrcode pillow flask-cors pylint autopep8 cairocffi cairosvg==1.0.22
+    virtualenv flaskenv && source ./flaskenv/bin/activate && pip install setuptools --upgrade && pip install -r requirements.txt
 }
 
 if [ "$1" == "setup" ]; then
