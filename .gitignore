@@ -2,6 +2,8 @@
 
 flaskenv/
 
+requirements.txt.all
+
 config.json
 static/csv/*
 static/pdf/*
