@@ -1,5 +1,7 @@
 #!/bin/bash
 
+PORT=5000
+
 function usage {
 	echo
 	echo "Usage:"
@@ -9,13 +11,24 @@ function usage {
 	echo "  - server stop [server_name]       : stop server"
     echo "  - server debug [server_name]      : start server in debug mode"
     echo
-	echo "Note: the server starts on localhost:5000."
+	echo "Note: the server starts on localhost:$PORT."
 }
 
 function err {
 	echo $1
     usage
 	exit 1
+}
+
+function venv_activate {
+    source ./flaskenv/bin/activate
+}
+
+function assert_server_not_running {
+    if [ -f "./qrvey.$SERVER_NAME.pid" ]; then
+        echo "A process associated with '$SERVER_NAME' is already running."
+        exit 0
+    fi
 }
 
 function setup {
@@ -29,8 +42,8 @@ function setup {
     # Press any key to continue
     read -n 1 -s -r
 
-    # virtualenv flaskenv && source ./flaskenv/bin/activate && pip install setuptools --upgrade && pip install Flask flask-mysqldb gunicorn Flask-WeasyPrint qrcode pillow flask-cors pylint autopep8 cairocffi cairosvg==1.0.22
-    virtualenv flaskenv && source ./flaskenv/bin/activate && pip install setuptools --upgrade && pip install -r requirements.txt
+    # virtualenv flaskenv && venv_activate && pip install setuptools --upgrade && pip install Flask flask-mysqldb gunicorn Flask-WeasyPrint qrcode pillow flask-cors pylint autopep8 cairocffi cairosvg==1.0.22
+    virtualenv flaskenv && venv_activate && pip install setuptools --upgrade && pip install -r requirements.txt
 
     cd "./static"
     mkdir -p "./static/csv"
@@ -52,21 +65,24 @@ else
 
 
     if [ "$1" == "start" ]; then
-        if [ -f "./qrvey.$SERVER_NAME.pid" ]; then
-            echo "A process associated with '$SERVER_NAME' is already running."
-            exit 0
-        fi
-        source ./flaskenv/bin/activate && gunicorn qrvey:app -b 0.0.0.0:5000 -p "qrvey.$SERVER_NAME.pid" -D && echo "Server started"
+        assert_server_not_running
+        venv_activate && gunicorn qrvey:app -b 0.0.0.0:$PORT -p "qrvey.$SERVER_NAME.pid" -D && echo "Server started"
     elif [ "$1" == "restart" ]; then
-        source ./flaskenv/bin/activate && kill -HUP `cat qrvey.$SERVER_NAME.pid` && echo "Server restarted"
+        venv_activate
+        if [ ! -f "qrvey.$SERVER_NAME.pid" ]; then
+            gunicorn app:app -b 0.0.0.0:$PORT -p "qrvey.$SERVER_NAME.pid" -D && echo "No server was running. Server started."
+        else
+            kill -HUP `cat qrvey.$SERVER_NAME.pid` && echo "Server restarted"
+        fi
     elif [ "$1" == "stop" ]; then
         if [ ! -f "./qrvey.$SERVER_NAME.pid" ]; then
-            echo "No pid found associated with '$SERVER_NAME'."
+            echo "No server was running with name '$SERVER_NAME'."
             exit 0
         fi
-        source ./flaskenv/bin/activate && kill `cat ./qrvey.$SERVER_NAME.pid` && echo "Server stopped"
+        venv_activate && kill `cat ./qrvey.$SERVER_NAME.pid` && echo "Server stopped"
     elif [ "$1" == "debug" ]; then
-        source ./flaskenv/bin/activate && gunicorn qrvey:app -b 0.0.0.0:5000
+        assert_server_not_running
+        venv_activate && gunicorn qrvey:app -b 0.0.0.0:$PORT
     elif [ $# != 0 ]; then
         err "Wrong parameter."
     fi
