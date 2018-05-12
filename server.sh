@@ -70,7 +70,7 @@ else
     elif [ "$1" == "restart" ]; then
         venv_activate
         if [ ! -f "qrvey.$SERVER_NAME.pid" ]; then
-            gunicorn app:app -b 0.0.0.0:$PORT -p "qrvey.$SERVER_NAME.pid" -D && echo "No server was running. Server started."
+            gunicorn qrvey:app -b 0.0.0.0:$PORT -p "qrvey.$SERVER_NAME.pid" -D && echo "No server was running. Server started."
         else
             kill -HUP `cat qrvey.$SERVER_NAME.pid` && echo "Server restarted"
         fi
