@@ -79,7 +79,9 @@ else
             echo "No server was running with name '$SERVER_NAME'."
             exit 0
         fi
-        venv_activate && kill `cat ./qrvey.$SERVER_NAME.pid` && echo "Server stopped"
+        venv_activate
+        kill `cat ./qrvey.$SERVER_NAME.pid` || rm "./qrvey.$SERVER_NAME.pid"
+        echo "Server stopped"
     elif [ "$1" == "debug" ]; then
         assert_server_not_running
         venv_activate && gunicorn qrvey:app -b 0.0.0.0:$PORT
