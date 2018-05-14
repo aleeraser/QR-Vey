@@ -15,9 +15,9 @@ function usage {
 }
 
 function err {
-	echo $1
+        echo $1
     usage
-	exit 1
+        exit 1
 }
 
 function venv_activate {
@@ -69,19 +69,20 @@ else
         venv_activate && gunicorn qrvey:app -b 0.0.0.0:$PORT -p "qrvey.$SERVER_NAME.pid" -D && echo "Server started"
     elif [ "$1" == "restart" ]; then
         venv_activate
+        kill -HUP `cat qrvey.$SERVER_NAME.pid &>/dev/null` &>/dev/null
         if [ ! -f "qrvey.$SERVER_NAME.pid" ]; then
             gunicorn qrvey:app -b 0.0.0.0:$PORT -p "qrvey.$SERVER_NAME.pid" -D && echo "No server was running. Server started."
         else
-            kill -HUP `cat qrvey.$SERVER_NAME.pid` && echo "Server restarted"
+            echo "Server restarted"
         fi
     elif [ "$1" == "stop" ]; then
-        if [ ! -f "./qrvey.$SERVER_NAME.pid" ]; then
+    	if [ ! -f "./qrvey.$SERVER_NAME.pid" ]; then
             echo "No server was running with name '$SERVER_NAME'."
             exit 0
-        fi
-        venv_activate
-        kill `cat ./qrvey.$SERVER_NAME.pid` || rm "./qrvey.$SERVER_NAME.pid"
-        echo "Server stopped"
+        else
+    		kill `cat ./qrvey.$SERVER_NAME.pid` &>/dev/null || rm "./qrvey.$SERVER_NAME.pid"
+    		echo "Server stopped"
+    	fi
     elif [ "$1" == "debug" ]; then
         assert_server_not_running
         venv_activate && gunicorn qrvey:app -b 0.0.0.0:$PORT
@@ -89,3 +90,4 @@ else
         err "Wrong parameter."
     fi
 fi
+                                                                                                                                            
