@@ -63,6 +63,8 @@ else
     [ -d "./flaskenv" ] || setup
     SERVER_NAME="$2"
 
+    export LC_ALL=en_US.UTF-8
+    export LANG=en_US.UTF-8
 
     if [ "$1" == "start" ]; then
         assert_server_not_running
