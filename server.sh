@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PORT=8765
+PORT=5000
 
 function usage {
 	echo
